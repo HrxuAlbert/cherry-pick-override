@@ -1,11 +1,12 @@
-"""Diagnostic analyses (Stage-1 strengthening).
+"""Diagnostic analyses on cached per-judge outputs (no API calls).
 
-Two new analyses using only cached per-judge outputs (no API calls):
+Two analyses:
   1. Panel-amplification anatomy on AVeriTeC and VitaminC conflicting subsets.
-     For 3-opt panel: how does majority voting suppress single-judge dissent?
+     For the 3-option panel, how does majority voting suppress single-judge
+     dissent?
   2. Confidence-boundary analysis: confidence distributions split by
      (correct directional, CCO directional, non-directional) on the typed
-     4-opt panel proposals. Tests whether confidence can detect CCO.
+     4-option panel proposals. Tests whether confidence can detect CCO.
 
 Outputs:
   outputs/option_a_exp/analysis/diagnostic/panel_amplification_anatomy.csv

@@ -1,4 +1,4 @@
-"""Generate fig1_random_veto_selectivity.pdf — 4-col × 2-row apples-to-apples version.
+"""Generate Figure 1: 4-column x 2-row apples-to-apples random Stage-1 panel.
 
 Layout: rows = datasets (AVeriTeC, VitaminC-Mixed), columns = metrics
 (SE, CCO_N, Acc_S/R, Rec_C). Columns 1-2 (magnitude axis) are shaded
@@ -10,17 +10,18 @@ dashed E (baseline) line, and a solid F (controller) line. Annotations
 report F's empirical percentile against the null.
 
 Reads pre-computed distributions from
-  outputs/option_a_exp/analysis/defense_pack/fair_random_stage1_distributions.json
-(produced by `fair_random_stage1.py`). No new random draws here, so the
+  outputs/option_a_exp/analysis/random_stage1_null/fair_random_stage1_distributions.json
+(produced by fair_random_stage1.py). No new random draws here, so the
 plot is deterministic given that input file.
 
-Outputs:
-  - Writing/V0.2/figures/fig1_random_veto_selectivity.pdf
-  - Writing/V0.2/figures/fig1_random_veto_selectivity.png
+Outputs (written under REPO/figures by default; override with FIG_DIR env var):
+  - figures/fig1_random_veto_selectivity.pdf
+  - figures/fig1_random_veto_selectivity.png
 """
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -28,8 +29,8 @@ import numpy as np
 from scipy.stats import gaussian_kde
 
 REPO = Path(__file__).resolve().parents[3]
-WRITING_DIR = Path("/Users/haoranxu/Desktop/PhD/Claim_Commitment/Writing/V0.2/figures")
-DATA = REPO / "outputs/option_a_exp/analysis/defense_pack/fair_random_stage1_distributions.json"
+FIG_DIR = Path(os.environ.get("FIG_DIR", REPO / "figures"))
+DATA = REPO / "outputs/option_a_exp/analysis/random_stage1_null/fair_random_stage1_distributions.json"
 
 METRICS = [
     ("rand_se",     "se",     r"$\mathrm{SE}$",            "selective error",        True,  "magnitude"),
@@ -199,10 +200,10 @@ def main():
                bbox_to_anchor=(0.5, 1.005), ncol=4,
                frameon=False, fontsize=8, columnspacing=1.6)
 
-    WRITING_DIR.mkdir(parents=True, exist_ok=True)
-    out_pdf = WRITING_DIR / "fig1_random_veto_selectivity.pdf"
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    out_pdf = FIG_DIR / "fig1_random_veto_selectivity.pdf"
     fig.savefig(out_pdf, bbox_inches="tight", pad_inches=0.08)
-    out_png = WRITING_DIR / "fig1_random_veto_selectivity.png"
+    out_png = FIG_DIR / "fig1_random_veto_selectivity.png"
     fig.savefig(out_png, bbox_inches="tight", pad_inches=0.08, dpi=200)
     plt.close(fig)
     print(f"Wrote {out_pdf}")

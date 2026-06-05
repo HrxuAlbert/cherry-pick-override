@@ -1,47 +1,42 @@
-"""P0/P1 concept-and-experiment diagnostics for the paper.
+"""Concept-and-experiment diagnostics for the paper.
 
-Six analyses, all using cached prediction data (no API calls):
+Five analyses, all using cached prediction data (no API calls):
 
-  P0b. Calibration analysis (ECE + reliability bins) on AVeriTeC panel 4-opt.
-       Split by (correct_directional, CCO_directional). Tests whether CCO
-       cases are merely calibration errors.
-  P0c. 4x4 confusion matrix (gold x pred) on AVeriTeC panel 4-opt. Used to
-       show whether judges distinguish INSUFFICIENT from CONFLICTING.
-  P1a. False CONFLICTING rate on pure-S/R subset (judges predicting C when
-       gold is S or R). Bounds the specificity of conflict prediction.
-  P1b. Panel agreement (3-0 vs 2-1) on CCO cases under 4-opt schema.
-       Determines whether CCO is unanimous or driven by majority overriding
-       dissent.
-  P1c. Validator material_mixed coverage on the CCO subset. How often the
-       structural validator could have caught the CCO commit.
-  P1d. Validator reliability against the N=10 human audit. Agreement on
-       conflict / non-conflict labels.
+  1. Calibration analysis (ECE + reliability bins) on AVeriTeC panel 4-opt.
+     Split by (correct_directional, CCO_directional). Tests whether CCO
+     cases are merely calibration errors.
+  2. 4x4 confusion matrix (gold x pred) on AVeriTeC panel 4-opt. Used to
+     show whether judges distinguish INSUFFICIENT from CONFLICTING.
+  3. False CONFLICTING rate on pure-S/R subset (judges predicting C when
+     gold is S or R). Bounds the specificity of conflict prediction.
+  4. Panel agreement (3-0 vs 2-1) on CCO cases under 4-opt schema.
+     Determines whether CCO is unanimous or driven by majority overriding
+     dissent.
+  5. Validator material_mixed coverage on the CCO subset. How often the
+     structural validator could have caught the CCO commit.
 
 Outputs:
-  outputs/option_a_exp/analysis/p0_concept_diagnostics/
+  outputs/option_a_exp/analysis/concept_diagnostics/
     calibration.csv
     calibration.md
     confusion_matrix.md
     false_conflict_rate.md
     panel_agreement_on_cco.md
     validator_on_cco.md
-    validator_vs_human_audit.md
     summary.md
 """
 from __future__ import annotations
 
 import csv
 import json
-import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-OUT = REPO / "outputs/option_a_exp/analysis/p0_concept_diagnostics"
+OUT = REPO / "outputs/option_a_exp/analysis/concept_diagnostics"
 OUT.mkdir(parents=True, exist_ok=True)
 
 LABELS_4 = ["support", "refute", "insufficient", "conflicting"]
-AUDIT_FILE = REPO.parent.parent / "Writing/V0.2/writing_materials/audit_blind_trial_10cases.md"
 
 
 # ───────────────────────── Data loading ─────────────────────────
@@ -90,49 +85,7 @@ def load_validator():
     return out
 
 
-def load_human_audit():
-    """Parse audit_blind_trial_10cases.md for human single-annotator labels.
-
-    Returns list of {case_idx, claim, judgment} for 10 cases.
-    judgment is normalized to one of {support, refute, conflict,
-                                      weakly_conflicting, insufficient, reject}
-    """
-    if not AUDIT_FILE.exists():
-        return []
-    text = AUDIT_FILE.read_text()
-    out = []
-    case_blocks = re.split(r"\n## Case (\d+)\n", text)
-    for i in range(1, len(case_blocks), 2):
-        idx = int(case_blocks[i])
-        body = case_blocks[i + 1]
-        claim_m = re.search(r"\*\*Claim\*\*:\s*(.+?)\n", body)
-        judge_m = re.search(r"\*\*你的判断\*\*:\s*_+\s*(.+?)\n", body)
-        if not judge_m:
-            continue
-        raw = judge_m.group(1).strip().lower()
-        # normalize
-        if "weakly" in raw or "weak conflict" in raw or "week" in raw:
-            # "week support" appears once; treat as support
-            if "support" in raw:
-                norm = "support"
-            else:
-                norm = "weakly_conflicting"
-        elif "conflict" in raw:
-            norm = "conflict"
-        elif "support" in raw:
-            norm = "support"
-        elif "refute" in raw:
-            norm = "refute"
-        elif "insuf" in raw:
-            norm = "insufficient"
-        else:
-            norm = raw
-        out.append({"case_idx": idx, "claim": claim_m.group(1).strip() if claim_m else "",
-                    "judgment_raw": raw, "judgment_norm": norm})
-    return out
-
-
-# ───────────────────────── P0b: Calibration / ECE ─────────────────────────
+# ───────────────────────── Calibration / ECE ─────────────────────────
 
 def calibration_analysis(e1):
     """ECE + reliability bins on panel 4-opt, split by outcome category.
@@ -311,7 +264,7 @@ def calibration_analysis(e1):
             "n_dir": total, "n_cco": cco_n, "n_correct": noncco_n}
 
 
-# ───────────────────────── P0c: 4x4 confusion matrix ─────────────────────────
+# ───────────────────────── 4x4 confusion matrix ─────────────────────────
 
 def confusion_4x4(e1):
     """Build gold x pred 4x4 matrix on panel 4-opt aggregated outputs."""
@@ -359,7 +312,7 @@ def confusion_4x4(e1):
     return cm
 
 
-# ───────────────────────── P1a: False conflict rate ─────────────────────────
+# ───────────────────────── False conflict rate ─────────────────────────
 
 def false_conflict_rate(e1):
     """Rate at which panel returns CONFLICTING on gold-S/R subset (false alarm)."""
@@ -400,7 +353,7 @@ def false_conflict_rate(e1):
             "false_insuf_rate": false_insuf / n_sr if n_sr else 0}
 
 
-# ───────────────────────── P1b: Panel agreement on CCO ─────────────────────────
+# ───────────────────────── Panel agreement on CCO ─────────────────────────
 
 def panel_agreement_on_cco(e1):
     """On CCO cases (pred=S/R, gold=C), how often is panel 3-0 vs 2-1?"""
@@ -451,7 +404,7 @@ def panel_agreement_on_cco(e1):
     return {"n_cco": n, "agreement_types": dict(agreement_types)}
 
 
-# ───────────────────────── P1c: Validator on CCO ─────────────────────────
+# ───────────────────────── Validator on CCO ─────────────────────────
 
 def validator_on_cco(e1, validator):
     """On CCO commits, how often does material_mixed fire?"""
@@ -522,58 +475,6 @@ def validator_on_cco(e1, validator):
             "n_pure_sr_matched": len(pure_sr)}
 
 
-# ───────────────────────── P1d: Validator vs human audit ─────────────────────────
-
-def validator_vs_audit(human_audit, e1, validator):
-    """Compute agreement between human N=10 audit and validator material_mixed flag.
-
-    Note: the human audit doesn't carry case_id; we match by claim text.
-    """
-    md = []
-    md.append("# Validator vs N=10 human audit\n\n")
-    md.append(f"Human audit cases parsed: {len(human_audit)}\n\n")
-    if not human_audit:
-        md.append("⚠ Could not parse audit file; skipping.\n")
-        (OUT / "validator_vs_human_audit.md").write_text("".join(md))
-        return {}
-
-    # Try to match by claim text — fuzzy match (first 40 chars)
-    matched = []
-    unmatched_human = []
-    for h in human_audit:
-        target = h["claim"][:40].lower()
-        cand_id = None
-        # Search all e1 cases that have raw claim text — but raw_results.jsonl
-        # may not carry the claim. We need to find it.
-        # Fall back: just record human label without matching for now.
-        unmatched_human.append(h)
-
-    # We report the human labels as-is, plus the rough validator agreement.
-    md.append("## Human labels (single-annotator)\n\n")
-    md.append("| Case | Claim (truncated) | Human label |\n")
-    md.append("|---|---|---|\n")
-    for h in human_audit:
-        claim = h["claim"][:60] + ("..." if len(h["claim"]) > 60 else "")
-        md.append(f"| {h['case_idx']} | {claim} | {h['judgment_norm']} |\n")
-
-    counts = Counter(h["judgment_norm"] for h in human_audit)
-    md.append("\n## Human label distribution\n\n")
-    for k, v in counts.most_common():
-        md.append(f"- {k}: {v} / {len(human_audit)}\n")
-
-    conflict_human = sum(1 for h in human_audit if h["judgment_norm"] in ("conflict", "weakly_conflicting"))
-    md.append(f"\n**Cases human annotated as conflict / weakly_conflicting**: "
-              f"{conflict_human} / {len(human_audit)}\n\n")
-    md.append("## Validator vs human agreement\n\n")
-    md.append("Audit cases were drawn from the AVeriTeC E1 set; matching by "
-              "case_id requires the claim text to be in the raw_results record. "
-              "If raw_results does not carry the claim text, we report the human "
-              "labels alone and rely on the broader CCO-subset validator coverage "
-              "result (validator_on_cco.md) as the in-paper number.\n")
-    (OUT / "validator_vs_human_audit.md").write_text("".join(md))
-    return {"human_labels": counts, "n_human_conflict": conflict_human, "n_audit": len(human_audit)}
-
-
 # ───────────────────────── Main ─────────────────────────
 
 def main():
@@ -582,88 +483,78 @@ def main():
     print(f"  e1 cases: {len(e1)}")
     validator = load_validator()
     print(f"  validator cases: {len(validator)}")
-    human_audit = load_human_audit()
-    print(f"  human audit cases parsed: {len(human_audit)}")
 
-    print("\n[P0b] Calibration analysis...")
+    print("\n[1] Calibration analysis...")
     cal = calibration_analysis(e1)
     print(f"  ECE overall directional: {cal['ece']:.4f}")
     print(f"  ECE on pure-S/R (CCO removed): {cal['ece_pure_sr']:.4f}")
     print(f"  CCO confidence mean: {cal['cco_stats']['mean'] if cal['cco_stats'] else None}")
     print(f"  Correct confidence mean: {cal['correct_stats']['mean'] if cal['correct_stats'] else None}")
     if cal['mw']:
-        print(f"  Mann-Whitney p ≈ {cal['mw']['p_two_sided']}")
+        print(f"  Mann-Whitney p ~ {cal['mw']['p_two_sided']}")
 
-    print("\n[P0c] 4x4 confusion matrix...")
+    print("\n[2] 4x4 confusion matrix...")
     cm = confusion_4x4(e1)
     for g in LABELS_4:
         row = " ".join(f"{cm.get((g, p), 0):4d}" for p in LABELS_4)
-        print(f"  {g:13s} → {row}")
+        print(f"  {g:13s} -> {row}")
 
-    print("\n[P1a] False conflict rate...")
+    print("\n[3] False conflict rate...")
     fc = false_conflict_rate(e1)
     print(f"  N_sr={fc['n_sr']}, false-conflict rate = {fc['false_conf_rate']:.3f}, "
           f"false-insufficient = {fc['false_insuf_rate']:.3f}")
 
-    print("\n[P1b] Panel agreement on CCO...")
+    print("\n[4] Panel agreement on CCO...")
     pa = panel_agreement_on_cco(e1)
     print(f"  N_cco={pa['n_cco']}, patterns: {pa['agreement_types']}")
 
-    print("\n[P1c] Validator on CCO...")
+    print("\n[5] Validator on CCO...")
     vc = validator_on_cco(e1, validator)
     print(f"  N_cco={vc['n_cco']}, matched={vc['n_matched']}, "
           f"material_mixed rate={vc['flagged_mixed_rate']:.3f}, "
           f"false alarm on S/R={vc['false_alarm_on_sr']:.3f}")
 
-    print("\n[P1d] Validator vs human audit...")
-    va = validator_vs_audit(human_audit, e1, validator)
-    print(f"  Human label distribution: {va.get('human_labels')}")
-
-    # Write summary
+    # Aggregate summary
     summary = []
-    summary.append("# P0/P1 Diagnostic Summary\n\n")
-    summary.append("All numbers used in §3 (concept) and §4/§5 (results) revisions.\n\n")
+    summary.append("# Concept Diagnostic Summary\n\n")
+    summary.append("Numbers used in the paper's method and results sections.\n\n")
 
-    summary.append("## P0b. Calibration / CCO ≠ calibration error\n\n")
+    summary.append("## 1. Calibration: CCO is not a calibration error\n\n")
     if cal['mw']:
         summary.append(f"- Panel directional commits N={cal['n_dir']} (CCO={cal['n_cco']}, "
-                       f"correct={cal['n_correct']}).\n")
+                       f"non-CCO directional={cal['n_correct']}).\n")
         summary.append(f"- ECE on pure-S/R subset (CCO removed): **{cal['ece_pure_sr']:.4f}**\n")
         summary.append(f"- CCO mean conf {cal['cco_stats']['mean']:.3f} "
                        f"vs correct directional mean conf {cal['correct_stats']['mean']:.3f}\n")
-        summary.append(f"- Mann-Whitney two-sided p ≈ {cal['mw']['p_two_sided']}\n")
-        summary.append(f"  → CCO and correct directional confidence distributions are "
+        summary.append(f"- Mann-Whitney two-sided p ~ {cal['mw']['p_two_sided']}\n")
+        summary.append(f"  -> CCO and correct directional confidence distributions are "
                        f"{'statistically distinguishable' if cal['mw']['p_two_sided'] and cal['mw']['p_two_sided'] < 0.05 else 'NOT statistically distinguishable'} "
-                       f"at α=0.05.\n\n")
+                       f"at alpha=0.05.\n\n")
 
-    summary.append("## P0c. I vs C confusion matrix\n\n")
-    summary.append("| gold ↓ \\ pred → | support | refute | insufficient | conflicting |\n")
+    summary.append("## 2. INSUFFICIENT vs CONFLICTING confusion matrix\n\n")
+    summary.append("| gold \\ pred | support | refute | insufficient | conflicting |\n")
     summary.append("|---|---|---|---|---|\n")
     for g in LABELS_4:
         cells = [cm.get((g, p), 0) for p in LABELS_4]
         summary.append(f"| {g} | {cells[0]} | {cells[1]} | {cells[2]} | {cells[3]} |\n")
     summary.append("\n")
 
-    summary.append("## P1a. False conflict rate on pure-S/R\n\n")
+    summary.append("## 3. False conflict rate on pure-S/R\n\n")
     summary.append(f"- N (pure S/R) = {fc['n_sr']}\n")
     summary.append(f"- Pred = CONFLICTING: {fc['false_conf']} ({fc['false_conf_rate']*100:.1f}%)\n")
     summary.append(f"- Pred = INSUFFICIENT: {fc['false_insuf']} ({fc['false_insuf_rate']*100:.1f}%)\n\n")
 
-    summary.append("## P1b. Panel agreement on CCO\n\n")
+    summary.append("## 4. Panel agreement on CCO\n\n")
     summary.append(f"- N_CCO = {pa['n_cco']}\n")
     for k, v in pa['agreement_types'].items():
         summary.append(f"- {k}: {v} ({v/pa['n_cco']*100:.1f}%)\n")
     summary.append("\n")
 
-    summary.append("## P1c. Validator coverage on CCO\n\n")
+    summary.append("## 5. Validator coverage on CCO\n\n")
     summary.append(f"- N_CCO (validator-matched) = {vc['n_matched']}\n")
     summary.append(f"- material_mixed=True rate on CCO: **{vc['flagged_mixed_rate']*100:.1f}%**\n")
     summary.append(f"- material_mixed=True rate on pure-S/R: **{vc['false_alarm_on_sr']*100:.1f}%** "
                    f"(false-alarm baseline)\n\n")
-
-    summary.append("## P1d. Human audit (N=10)\n\n")
-    summary.append(f"- Conflict / weakly_conflicting: {va.get('n_human_conflict')} / 10\n")
-    summary.append(f"- Label distribution: {dict(va.get('human_labels', {}))}\n\n")
 
     (OUT / "summary.md").write_text("".join(summary))
     print(f"\nAll outputs in {OUT}")

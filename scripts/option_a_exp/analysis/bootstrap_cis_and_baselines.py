@@ -1,28 +1,31 @@
-"""Phase 1 (Day-8 polish) — bootstrap CIs for headline differences + conflict-if-any panel baseline.
+"""Paired-bootstrap CIs for headline differences + conflict-if-any panel baseline.
 
-For each headline claim, compute the paired bootstrap CI (5000 resamples) on the
-per-case-outcome paired difference. Also compute the conflict-if-any panel
-baseline: "if any judge votes CONFLICTING, withhold directional commit".
+For each headline claim, compute the paired bootstrap CI (5000 resamples) on
+the per-case-outcome paired difference. Also compute the conflict-if-any
+panel baseline: "if any judge votes CONFLICTING, withhold the directional
+commit".
 
 Headline CI claims:
-  H1. Panel 3-opt CCO_C vs single Haiku 3-opt CCO_C on AVeriTeC conflicting subset (N=150)
-        Reported in abstract/§4: 0.887 vs 0.840 (+4.7 pp panel amplification)
-  H2. Typed direct (panel 4-opt) CCO_C vs single Haiku 3-opt CCO_C on AVeriTeC conflicting subset
-        Reported: 0.187 vs 0.840 (L0 -> L1 vocab reduction)
-  H3. Validator-as-classifier Acc_S/R vs typed direct Acc_S/R on AVeriTeC pure-S/R subset
-        Reported: 0.39 vs 0.78 (L4 classifier-mode collapse)
-  H4. Panel 3-opt CCO_C vs single 3-opt CCO_C on VitaminC conflicting subset (cross-dataset null)
-        Reported: ~0.76 vs ~0.72 (NOT statistically separated, supports scoping to AVeriTeC)
+  H1. Panel 3-opt CCO_C vs single Haiku 3-opt CCO_C on AVeriTeC conflicting
+      subset (N=150). Reported: 0.887 vs 0.840 (+4.7 pp panel amplification).
+  H2. Typed direct (panel 4-opt) CCO_C vs single Haiku 3-opt CCO_C on AVeriTeC
+      conflicting subset. Reported: 0.187 vs 0.840 (L0 -> L1 vocabulary
+      reduction).
+  H3. Validator-as-classifier Acc_S/R vs typed direct Acc_S/R on AVeriTeC
+      pure-S/R subset. Reported: 0.39 vs 0.78 (L4 classifier-mode collapse).
+  H4. Panel 3-opt CCO_C vs single 3-opt CCO_C on VitaminC conflicting subset
+      (cross-dataset null). Reported: about 0.76 vs 0.72, NOT statistically
+      separated; supports scoping the amplification claim to AVeriTeC.
 
 Plus:
-  B1. Conflict-if-any panel baseline: if any judge votes CONFLICTING, output CONFLICTING.
-        Computed at the typed 4-opt panel level on AVeriTeC E1.
+  B1. Conflict-if-any panel baseline: if any judge votes CONFLICTING, output
+      CONFLICTING. Computed at the typed 4-opt panel level on AVeriTeC.
 
-No new API calls. Pure post-hoc analysis of existing E1/E4 predictions.
+No API calls; pure post-hoc analysis of cached panel predictions.
 
 Outputs:
-  outputs/option_a_exp/analysis/phase1_cis.csv
-  outputs/option_a_exp/analysis/phase1_cis_summary.md
+  outputs/option_a_exp/analysis/bootstrap_cis.csv
+  outputs/option_a_exp/analysis/bootstrap_cis_summary.md
 """
 from __future__ import annotations
 import csv
@@ -256,7 +259,7 @@ print(f"  Cov={B1['cov']:.4f}  SE={B1['se']:.4f}  CCO_N={B1['cco_N']:.4f}  "
 # ─── Write CSV + summary ────────────────────────────────────────────────
 
 OUT_DIR.mkdir(parents=True, exist_ok=True)
-csv_path = OUT_DIR / "phase1_cis.csv"
+csv_path = OUT_DIR / "bootstrap_cis.csv"
 rows = []
 for H in [H1, H2, H3, H4]:
     rows.append({"hypothesis": H["name"], "n": H["n"],
@@ -271,10 +274,9 @@ with csv_path.open("w", newline="") as f:
         w.writerow(r2)
 print(f"\nWrote {csv_path}")
 
-md_path = OUT_DIR / "phase1_cis_summary.md"
-md = f"""# Phase 1 — Bootstrap CIs for Headline Differences + Conflict-If-Any Baseline
+md_path = OUT_DIR / "bootstrap_cis_summary.md"
+md = f"""# Bootstrap CIs for Headline Differences + Conflict-If-Any Baseline
 
-**Date**: 2026-06-02 (Day 8 polish, post-AAAI-reviewer-style critique)
 **Method**: Paired bootstrap, 5000 resamples, seed=0. Per-case paired
 differences on the same denominator subset.
 
@@ -317,7 +319,7 @@ Compare to L1 typed direct (panel + typed): Cov 0.396, SE 0.310, CCO_N 0.098, Ac
 And to L5 (F τ=0.85): Cov 0.281, SE 0.200, CCO_N 0.046, Acc_S/R 0.640, Rec_C 0.860.
 
 Conflict-if-any reaches CCO_N {B1['cco_N']:.3f} but at Acc_S/R {B1['acc_sr']:.3f} (vs typed direct 0.780).
-This is the natural "simplest CONFLICTING-aware aggregation rule" reviewer would propose; it sits inside the ladder space but does not dominate L5.
+This is the natural simplest CONFLICTING-aware aggregation rule; it sits inside the ladder space but does not dominate L5.
 """
 md_path.write_text(md)
 print(f"Wrote {md_path}")

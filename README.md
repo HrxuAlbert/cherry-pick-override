@@ -15,9 +15,9 @@ reader can audit what was sent to the models.
 ```
 .
 ├── scripts/option_a_exp/
-│   ├── analysis/                                  # 7 analysis scripts
+│   ├── analysis/                                  # 7 analysis scripts (see table below)
 │   └── prompts/judges/                            # 4 prompts used in the paper
-└── outputs/option_a_exp/strengthening/            # cached predictions (10 MB)
+└── outputs/option_a_exp/strengthening/            # cached predictions (about 10 MB)
     ├── e1_full_4label_utility/                    # AVeriTeC panel (3-opt + 4-opt + per-judge confidences)
     ├── e3_structured_certificate_validator_fewshot/   # AVeriTeC validator (few-shot certificate prompt)
     ├── e3_validator_on_e4_vitaminc_mixed/         # VitaminC-Mixed validator
@@ -26,30 +26,35 @@ reader can audit what was sent to the models.
 
 ## Reproducing the paper's numbers
 
-Python 3.12 with numpy + matplotlib (and `scipy` is *not* needed). Install
-with `pip install -r requirements.txt`.
+Python 3.12 with `numpy`, `matplotlib`, and `scipy`. Install with
+`pip install -r requirements.txt`.
 
 | Script | Reproduces |
 |---|---|
 | `analyze_selective_typed_controller.py` | Table 1 (intervention ladder, AVeriTeC) and Table 4 (channel-orthogonality ablation) |
-| `fair_random_stage1.py` | Apples-to-apples random Stage-1 null (Fig. 1 data, AVeriTeC + VitaminC) |
-| `plot_fig1_random_veto_selectivity.py` | Figure 1 (2×2 panel) |
-| `diagnostic_analyses.py` | Panel-amplification anatomy (Table 5 in appendix) and confidence-boundary numbers in §4.5 |
-| `p0_concept_diagnostics.py` | Calibration / ECE; 4×4 gold×pred matrix; false-conflict rate on pure-S/R; panel-agreement on CCO; validator coverage on CCO |
-| `phase1_cis_and_baselines.py` | Paired-bootstrap CIs (the four numbers cited at the end of §4.1) and the conflict-if-any panel baseline |
+| `analyze_controllers_on_vitaminc.py`    | The same controllers evaluated on the VitaminC-Mixed substrate (Appendix VitaminC table) |
+| `fair_random_stage1.py`                 | Apples-to-apples random Stage-1 null distributions (Figure 1 data, AVeriTeC + VitaminC) |
+| `plot_fig1_random_veto_selectivity.py`  | Figure 1 (4-column x 2-row KDE panel) |
+| `diagnostic_analyses.py`                | Panel-amplification anatomy (Appendix table) and confidence-boundary numbers in the L3 subsection |
+| `concept_diagnostics.py`                | Calibration / ECE; 4x4 gold-by-pred matrix; false-conflict rate on pure-S/R; panel-agreement on CCO; validator coverage on CCO |
+| `bootstrap_cis_and_baselines.py`        | Paired-bootstrap CIs (the four numbers cited at the end of the Results section) and the conflict-if-any panel baseline |
 
-Run from the repo root:
+Run from the repo root (order matters: `fair_random_stage1.py` produces
+the JSON that `plot_fig1_random_veto_selectivity.py` consumes):
 
 ```bash
-PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/p0_concept_diagnostics.py
+PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/concept_diagnostics.py
 PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/analyze_selective_typed_controller.py
+PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/analyze_controllers_on_vitaminc.py
 PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/fair_random_stage1.py
 PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/diagnostic_analyses.py
-PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/phase1_cis_and_baselines.py
+PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/bootstrap_cis_and_baselines.py
 PYTHONHASHSEED=0 python3.12 scripts/option_a_exp/analysis/plot_fig1_random_veto_selectivity.py
 ```
 
-Outputs are written under `outputs/option_a_exp/analysis/`.
+Outputs are written under `outputs/option_a_exp/analysis/`. The figure
+defaults to `figures/` under the repo root; override the location with
+the `FIG_DIR` environment variable.
 
 ## Data schema
 

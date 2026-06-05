@@ -1,9 +1,10 @@
-"""F (VG-RCTC) cross-dataset evaluation on VitaminC E4.
+"""Two-channel probe cross-dataset evaluation on VitaminC-Mixed.
 
 Joins:
-  - E4 panel 4-opt outputs (votes + confidences)
-  - E3-on-E4 validator outputs (validity flags)
-by case_id, then evaluates A/D/E/F controllers.
+  - VitaminC-Mixed panel 4-opt outputs (votes + confidences)
+  - validator outputs on VitaminC-Mixed (validity flags)
+by case_id, then evaluates the typed-direct (A), validator-veto (D),
+confidence-gate (E), and two-channel (F) controllers.
 """
 from __future__ import annotations
 
@@ -125,7 +126,7 @@ def main():
                    "pred": controller_f_combined(c, c["validity"], tau)} for c in cases]
         m = compute_metrics(scored)
         f_results.append({"tau": tau, "metrics": m})
-    print("\n[F VG-RCTC]")
+    print("\n[F two-channel: validator-veto + confidence-gate]")
     for r in f_results:
         print(f"  τ={r['tau']}: " + metrics_oneliner(r["metrics"], f"F_tau={r['tau']}"))
 
@@ -147,7 +148,7 @@ def main():
                   f"{d_err:>+10.3f} {d_cco:>+8.3f}")
 
     # ─── Save CSV ───
-    csv_path = OUT_DIR / "vg_rctc_on_vitaminc_e4.csv"
+    csv_path = OUT_DIR / "two_channel_probe_on_vitaminc.csv"
     fields = ["controller", "label", "params",
               "coverage", "sel_err", "sel_acc",
               "cco_full", "cco_confl", "acc_sr",

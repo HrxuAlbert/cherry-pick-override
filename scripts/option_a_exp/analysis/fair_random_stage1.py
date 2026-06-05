@@ -1,21 +1,22 @@
-"""Apples-to-apples random Stage-1 control.
+"""Apples-to-apples random Stage-1 null control.
 
-The original random-veto control downgraded E's directional commits to
-NO-COMMIT, which mechanically cannot change Rec_C (since random veto
-removes S/R predictions but does not produce CONFLICTING predictions).
-F's Stage-1, by contrast, *promotes* directional commits to CONFLICTING.
-The fair comparison is therefore to replace E's k directional commits
-with CONFLICTING (not NO-COMMIT), at 2000 random seeds, and compare F to
+A naive random-veto control that downgrades the confidence baseline's
+directional commits to NO-COMMIT cannot mechanically change Rec_C
+(random veto removes S/R predictions without producing CONFLICTING
+predictions). The two-channel probe's Stage-1, by contrast, *promotes*
+directional commits to CONFLICTING. The fair comparison is therefore
+to replace k of the baseline's directional commits with CONFLICTING
+(not NO-COMMIT), at 2000 random seeds, and compare the probe against
 the resulting distribution.
 
-This control answers: among E's k commits, did F's Stage-1 choose the
-\"right\" k to promote---or could a random Stage-1 reach the same
-operating point?
+This control answers: among the baseline's k removed commits, did the
+probe's Stage-1 choose the "right" k to promote, or could a random
+Stage-1 of the same size reach the same operating point?
 
-No new API calls; uses cached E1 and E4 predictions.
+Uses only cached panel and validator predictions; no API calls.
 
 Outputs:
-  outputs/option_a_exp/analysis/defense_pack/
+  outputs/option_a_exp/analysis/random_stage1_null/
     fair_random_stage1_distributions.json
     fair_random_stage1_summary.md
 """
@@ -32,9 +33,9 @@ from analyze_selective_typed_controller import (  # noqa: E402
     load_e1, load_e3_validator,
     controller_e_confidence, controller_f_combined,
 )
-from analyze_vg_rctc_on_e4 import load_e4_panel, load_e4_validator  # noqa: E402
+from analyze_controllers_on_vitaminc import load_e4_panel, load_e4_validator  # noqa: E402
 
-OUT = REPO / "outputs/option_a_exp/analysis/defense_pack"
+OUT = REPO / "outputs/option_a_exp/analysis/random_stage1_null"
 OUT.mkdir(parents=True, exist_ok=True)
 
 N_SEEDS = 2000

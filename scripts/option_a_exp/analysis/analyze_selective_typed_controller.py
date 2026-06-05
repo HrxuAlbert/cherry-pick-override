@@ -1,16 +1,17 @@
-"""Selective Typed Commitment Controller (STC / RCTC) — main Solution 2 rescue.
+"""Selective typed commitment controllers: panel-margin and validator-guarded variants.
 
-LLM (or typed panel) is treated as a proposal generator. An external rule-based
-controller authorizes directional SUPPORT/REFUTE commitments only when the typed
-vote distribution is stable, low-conflict, and low-risk. Otherwise it outputs
-CONFLICTING, INSUFFICIENT, or NO-COMMIT.
+The LLM panel (or single judge) is treated as a proposal generator. An
+external rule-based controller authorizes directional SUPPORT/REFUTE
+commitments only when the typed vote distribution is stable, low-conflict,
+and low-risk; otherwise it outputs CONFLICTING, INSUFFICIENT, or NO-COMMIT.
 
 Controllers implemented:
-  A: Typed Direct Baseline      = use panel-aggregated typed verdict as-is
-  B: Panel-Margin Controller    = sweep (tau_dir, tau_margin, tau_non, tau_conflict, tau_insufficient)
-  C: Risk-Calibrated Controller = calibrate on dev split, eval on test
-  D: Typed + Validator Veto     = veto S/R when validator flags mixed/insufficient
-  E: Confidence Selective Base  = same proposal, commit only when mean conf >= τ
+  A: Typed direct baseline       = use panel-aggregated typed verdict as-is
+  B: Panel-margin controller     = sweep (tau_dir, tau_margin, tau_non, tau_conflict, tau_insufficient)
+  C: Risk-calibrated controller  = calibrate on dev split, evaluate on test
+  D: Typed + validator veto      = veto S/R when validator flags mixed / insufficient
+  E: Confidence-gated selective  = same proposal, commit only when mean confidence >= tau
+  F: Two-channel probe           = D (conflict-only veto) composed with E (confidence gate)
 
 Outputs:
   outputs/option_a_exp/analysis/selective_typed_controller/
@@ -524,14 +525,14 @@ def main():
     for r in e_results:
         print(f"  τ={r['tau']:.2f}: " + metrics_oneliner(r["metrics"], f"conf_tau={r['tau']}"))
 
-    # ─── Variant F: D + E combined (Validator-Guided RCTC) ───
+    # ─── Variant F: D + E combined (validator-veto + confidence-gate) ───
     f_results = []
     for tau in [0.0, 0.5, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]:
         scored = [{"gold": c["gold"],
                    "pred": controller_f_combined(c, c["validity"], tau)} for c in e1_cases]
         m = compute_metrics(scored)
         f_results.append({"tau": tau, "metrics": m})
-    print("\n[F Validator-Guided RCTC = D conflict_only + E confidence]")
+    print("\n[F two-channel: validator-veto (conflict-only) + confidence-gate]")
     for r in f_results:
         print(f"  τ={r['tau']:.2f}: " + metrics_oneliner(r["metrics"], f"F_tau={r['tau']}"))
 
@@ -741,7 +742,7 @@ def main():
             sections.append(cm_markdown(r["metrics"]["cm"], f"E conf τ={r['tau']}"))
     for r in f_results:
         if r["tau"] in (0.8, 0.85, 0.9):
-            sections.append(f"\n## F Validator-Guided RCTC τ={r['tau']}\n")
+            sections.append(f"\n## F two-channel probe τ={r['tau']}\n")
             sections.append(cm_markdown(r["metrics"]["cm"], f"F τ={r['tau']}"))
     cm_md.write_text("\n\n".join(sections))
     print(f"Wrote {cm_md}")
@@ -817,7 +818,7 @@ def main():
         lines.append(f"- τ={r['tau']}: cov={m['coverage']:.3f} sel_err={m['sel_err']:.3f} "
                      f"CCO_full={m['cco_full']:.3f} acc_S/R={m['acc_sr']:.3f}")
 
-    lines.append("\n## F Validator-Guided RCTC (Stage1 veto + Stage2 conf threshold)\n")
+    lines.append("\n## F two-channel probe (Stage 1 veto + Stage 2 confidence gate)\n")
     for r in f_results:
         m = r["metrics"]
         lines.append(f"- τ={r['tau']}: cov={m['coverage']:.3f} sel_err={m['sel_err']:.3f} "
