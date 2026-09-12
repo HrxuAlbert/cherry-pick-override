@@ -8,7 +8,7 @@
   "n_gold_pure": 100,
   "variants": {
     "neutral": {
-      "run": "/private/tmp/cpo_release/outputs/revision_2026/probes/runs/averitec-probe-e5-neutral-20260901-v1/raw_results_full.jsonl",
+      "run": "/private/tmp/pub_check/outputs/revision_2026/probes/runs/averitec-probe-e5-neutral-20260901-v1/raw_results_full.jsonl",
       "rows": 1146,
       "status_counts": {
         "ok": 1138,
@@ -171,7 +171,7 @@
       }
     },
     "reduced": {
-      "run": "/private/tmp/cpo_release/outputs/revision_2026/probes/runs/averitec-probe-e5-reduced-20260901-v1/raw_results_full.jsonl",
+      "run": "/private/tmp/pub_check/outputs/revision_2026/probes/runs/averitec-probe-e5-reduced-20260901-v1/raw_results_full.jsonl",
       "rows": 1143,
       "status_counts": {
         "ok": 1138,

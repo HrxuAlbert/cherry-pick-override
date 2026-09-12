@@ -1,6 +1,6 @@
 {
-  "probe_run": "/private/tmp/cpo_release/outputs/revision_2026/probes/runs/averitec-probe-e1-recognition-20260901-v1/raw_results_full.jsonl",
-  "verdict_run": "/private/tmp/cpo_release/outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/raw_results_full.jsonl",
+  "probe_run": "/private/tmp/pub_check/outputs/revision_2026/probes/runs/averitec-probe-e1-recognition-20260901-v1/raw_results_full.jsonl",
+  "verdict_run": "/private/tmp/pub_check/outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/raw_results_full.jsonl",
   "bootstrap": {
     "resamples": 10000,
     "seed": 20260901

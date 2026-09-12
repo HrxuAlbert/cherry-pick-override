@@ -42,8 +42,19 @@ import json
 from pathlib import Path
 from typing import Any
 
+def _first_existing(*candidates):
+    """First candidate that exists, else the first, so a failure names the
+    canonical location. These paths differ between the author's working
+    tree and the public release."""
+    for c in candidates:
+        if c.exists():
+            return c
+    return candidates[0]
+
+
 WORKSPACE = _cpo_workspace()
 PROMPT_DIR = WORKSPACE / "Writing/V0.2/revision_plan/prompts"
+
 
 # Addendum §4.1: logprobs are only available on OpenAI-compatible endpoints, and only
 # gpt-oss-120b is predeclared for E2.
@@ -185,7 +196,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--base-manifest",
         type=Path,
-        default=WORKSPACE / "Writing/V0.2/revision_plan/current_models_manifest.json",
+        default=_first_existing(
+            WORKSPACE / "Writing/V0.2/revision_plan/current_models_manifest.json",
+            WORKSPACE / "manifests/current_models_manifest.json",
+        ),
     )
     parser.add_argument(
         "--output-dir",

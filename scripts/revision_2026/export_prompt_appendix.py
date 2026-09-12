@@ -50,9 +50,37 @@ import argparse
 import hashlib
 from pathlib import Path
 
+def _first_existing(*candidates):
+    """First candidate that exists, else the first, so a failure names the
+    canonical location. These paths differ between the author's working
+    tree and the public release."""
+    for c in candidates:
+        if c.exists():
+            return c
+    return candidates[0]
+
+
 WORKSPACE = _cpo_workspace()
-PROMPTS = WORKSPACE / "Writing/V0.2/code_release/scripts/option_a_exp/prompts/judges"
-OUTPUT = WORKSPACE / "overleaf-paper/sections/appendix_prompts.tex"
+# The prompt templates sit at different depths in the author's tree and in
+# the public release. Try both rather than hardcoding one; --help alone does
+# not exercise this path, which is how a release shipped with it broken.
+_PROMPT_CANDIDATES = (
+    WORKSPACE / "Writing/V0.2/code_release/scripts/option_a_exp/prompts/judges",
+    WORKSPACE / "scripts/option_a_exp/prompts/judges",
+)
+PROMPTS = next((p for p in _PROMPT_CANDIDATES if p.is_dir()), _PROMPT_CANDIDATES[0])
+# Default output: the manuscript tree when present, otherwise beside the
+# release so the script has somewhere to write without --output.
+_OUTPUT_CANDIDATES = (
+    WORKSPACE / "overleaf-paper/sections/appendix_prompts.tex",
+    WORKSPACE / "appendix_prompts.tex",
+)
+# Pick by whether the *parent* exists: an output file does not exist yet, so
+# testing the file itself always fell through to the manuscript tree and then
+# failed to write.
+OUTPUT = next((p for p in _OUTPUT_CANDIDATES if p.parent.is_dir()),
+              _OUTPUT_CANDIDATES[0])
+
 
 # (file, SHA-256 as recorded in the executed manifest)
 JUDGE = ("honest_4opt_strong.txt",
@@ -110,7 +138,10 @@ def main() -> None:
 \label{sec:appendix:prompts}
 
 Each prompt below is the byte content of the template file the runner loads,
-named above its listing. \verb|<<CLAIM>>| and \verb|<<EVIDENCE>>| are the
+named above its listing; the same files are in the code release under
+\texttt{scripts/option\_a\_exp/prompts/judges/}, where four prompts are
+shipped and the name identifies which one this is.
+\verb|<<CLAIM>>| and \verb|<<EVIDENCE>>| are the
 substitution points for the claim text and the rendered gold
 question--answer evidence block. Line breaks are the template's own, except
 where a line exceeds the measure and is wrapped by the typesetter; those

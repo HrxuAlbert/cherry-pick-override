@@ -1,13 +1,13 @@
 {
   "merge": {
     "rows_per_file": {
-      "/private/tmp/cpo_release/outputs/revision_2026/probes/runs/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 2304,
-      "/private/tmp/cpo_release/outputs/revision_2026/probes/runs_anthropic_resume/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 569
+      "/private/tmp/pub_check/outputs/revision_2026/probes/runs/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 2304,
+      "/private/tmp/pub_check/outputs/revision_2026/probes/runs_anthropic_resume/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 569
     },
     "attempts_kept": 1140,
     "attempts_by_source": {
-      "/private/tmp/cpo_release/outputs/revision_2026/probes/runs/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 855,
-      "/private/tmp/cpo_release/outputs/revision_2026/probes/runs_anthropic_resume/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 285
+      "/private/tmp/pub_check/outputs/revision_2026/probes/runs/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 855,
+      "/private/tmp/pub_check/outputs/revision_2026/probes/runs_anthropic_resume/averitec-probe-e4-decompose-20260901-v1/raw_results_full.jsonl": 285
     },
     "merged_rows": 2275,
     "run_id": "averitec-probe-e4-decompose-20260901-v1",

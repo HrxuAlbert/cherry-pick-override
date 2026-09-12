@@ -25,6 +25,7 @@ reader can audit what was sent to the models.
 │   ├── option_a_exp/prompts/judges/  # the 4 prompts, reproduced in the appendix
 │   └── revision_2026/                # v2: runners, analysers, plot scripts
 ├── tests/revision_2026/              # v2: unit tests for the above
+├── manifests/                        # v2: frozen model rosters for the replication
 └── outputs/
     ├── option_a_exp/strengthening/   # v1 cached predictions (about 10 MB)
     │   ├── e1_full_4label_utility/                  # AVeriTeC panel (3-opt + 4-opt + per-judge confidences)
@@ -112,6 +113,22 @@ python3.12 scripts/revision_2026/plot_fig1_random_veto_selectivity.py
 `CPO_WORKSPACE` overrides the root the scripts resolve; `FIG_DIR` overrides
 where figures are written. `tests/revision_2026/` holds the unit tests for the
 runners and analysers.
+
+Several analysers refuse to write into a non-empty output directory; pass
+their `--force` flag or point `--output-root` at a fresh path. That is a guard
+against silently overwriting a recorded run, not a failure.
+
+Two scripts cannot run from this release, and it is worth saying why rather
+than leaving them to fail:
+
+- `reconstruct_e1_source_map.py` and `reconstruct_vitaminc_source_map.py`
+  rebuild the case-to-source maps from the AVeriTeC and VitaminC development
+  sets. Those are third-party datasets and are not redistributed here; obtain
+  them from the original releases and pass `--source`.
+- `build_probe_manifests.py` also reads prompt templates from a path in the
+  author's working tree. The manifests it would produce are already shipped in
+  each run directory as `executed_manifest.json`, which is what the analysers
+  read, so nothing downstream depends on re-running it.
 
 ### What is not here, and why
 
