@@ -1,0 +1,17 @@
+dataset,contrast,metric,system_a,system_b,n_cases,rate_a,rate_b,delta_b_minus_a,ci_low,ci_high,bootstrap_resamples,seed
+AVeriTeC,panel_vs_single_3opt,dataset_defined_cco,single_haiku_3opt,panel_3judge_3opt,150,0.84,0.8866666666666667,0.046666666666666745,0.013333333333333334,0.08,5000,20260826
+AVeriTeC,panel_vs_single_3opt,pure_sr_accuracy,single_haiku_3opt,panel_3judge_3opt,100,0.84,0.95,0.10999999999999999,0.05,0.17,5000,20260826
+AVeriTeC,haiku_3opt_to_4opt,dataset_defined_cco,single_haiku_3opt,single_haiku_4opt_strong,150,0.84,0.2866666666666667,-0.5533333333333332,-0.6333333333333333,-0.47333333333333333,5000,20260826
+AVeriTeC,haiku_3opt_to_4opt,pure_sr_accuracy,single_haiku_3opt,single_haiku_4opt_strong,100,0.84,0.73,-0.10999999999999999,-0.19,-0.03,5000,20260826
+AVeriTeC,panel_3opt_to_4opt,dataset_defined_cco,panel_3judge_3opt,panel_3judge_4opt_strong,150,0.8866666666666667,0.18666666666666668,-0.7000000000000001,-0.7733333333333333,-0.6266666666666667,5000,20260826
+AVeriTeC,panel_3opt_to_4opt,pure_sr_accuracy,panel_3judge_3opt,panel_3judge_4opt_strong,100,0.95,0.78,-0.16999999999999993,-0.25,-0.09,5000,20260826
+AVeriTeC,typed_panel_vs_typed_single,dataset_defined_cco,single_haiku_4opt_strong,panel_3judge_4opt_strong,150,0.2866666666666667,0.18666666666666668,-0.1,-0.15333333333333332,-0.04666666666666667,5000,20260826
+AVeriTeC,typed_panel_vs_typed_single,pure_sr_accuracy,single_haiku_4opt_strong,panel_3judge_4opt_strong,100,0.73,0.78,0.050000000000000044,-0.01,0.11,5000,20260826
+VitaminC-Mixed,panel_vs_single_3opt,dataset_defined_cco,single_haiku_3opt,panel_3judge_3opt,100,0.77,0.77,0.0,-0.06,0.05,5000,20260826
+VitaminC-Mixed,panel_vs_single_3opt,pure_sr_accuracy,single_haiku_3opt,panel_3judge_3opt,100,0.75,0.79,0.040000000000000036,0.01,0.08,5000,20260826
+VitaminC-Mixed,haiku_3opt_to_4opt,dataset_defined_cco,single_haiku_3opt,single_haiku_4opt_strong,100,0.77,0.44,-0.33,-0.42,-0.24,5000,20260826
+VitaminC-Mixed,haiku_3opt_to_4opt,pure_sr_accuracy,single_haiku_3opt,single_haiku_4opt_strong,100,0.75,0.77,0.020000000000000018,-0.03,0.08,5000,20260826
+VitaminC-Mixed,panel_3opt_to_4opt,dataset_defined_cco,panel_3judge_3opt,panel_3judge_4opt_strong,100,0.77,0.3,-0.47000000000000003,-0.57,-0.37,5000,20260826
+VitaminC-Mixed,panel_3opt_to_4opt,pure_sr_accuracy,panel_3judge_3opt,panel_3judge_4opt_strong,100,0.79,0.74,-0.050000000000000044,-0.12,0.01,5000,20260826
+VitaminC-Mixed,typed_panel_vs_typed_single,dataset_defined_cco,single_haiku_4opt_strong,panel_3judge_4opt_strong,100,0.44,0.3,-0.14,-0.22,-0.07,5000,20260826
+VitaminC-Mixed,typed_panel_vs_typed_single,pure_sr_accuracy,single_haiku_4opt_strong,panel_3judge_4opt_strong,100,0.77,0.74,-0.030000000000000027,-0.08,0.01,5000,20260826

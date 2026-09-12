@@ -1,0 +1,202 @@
+{
+  "authorization_note": "Full AVeriTeC matrix authorized 2026-09-03 after a clean 20/20 two-stage smoke; decompositions were verbatim evidence excerpts and stage 2 consumed them.",
+  "authorized_modes": [
+    "smoke",
+    "full"
+  ],
+  "created_at": "20260901",
+  "dataset": {
+    "expected_counts": {
+      "conflicting": 150,
+      "insufficient": 35,
+      "refute": 50,
+      "support": 50
+    },
+    "expected_total": 285,
+    "local_source_dir": "/private/tmp/cco_audit_source",
+    "name": "AVeriTeC",
+    "revision": "122e10f4e02168d18eb9e8cdb5abe44f530ce6a7",
+    "sample_map_path": "outputs/revision_2026/current_models_averitec/input/e1_core_source_map.json",
+    "sample_map_sha256": "cc3651b2acebcd70daabb1d50e898ff4c4e6433890d80e47fba56531da1ba987",
+    "sources": {
+      "dev": {
+        "sha256": "499793726b4a5406780928a3d9dedc48d6dd53de778f22437d129cacdb08e300",
+        "url": "https://huggingface.co/chenxwh/AVeriTeC/resolve/122e10f4e02168d18eb9e8cdb5abe44f530ce6a7/data/dev.json"
+      },
+      "train": {
+        "sha256": "ae5eda7c42ddf1695ef185a7ba1bc716928f5adf57103e4f78aae5f9afe00f9c",
+        "url": "https://huggingface.co/chenxwh/AVeriTeC/resolve/122e10f4e02168d18eb9e8cdb5abe44f530ce6a7/data/train.json"
+      }
+    }
+  },
+  "expected_actual_cost_usd": 4.5,
+  "inter_call_delay_seconds": 0.2,
+  "max_estimated_cost_usd": 30.0,
+  "max_retries": 1,
+  "models": [
+    {
+      "accounting_max_output_tokens": 1024,
+      "api_key_env": "OPENAI_API_KEY",
+      "base_url": "https://api.openai.com/v1",
+      "checkpoint_id": "gpt-5.6-terra",
+      "checkpoint_note": "Official model page lists this dateless ID itself as the available snapshot; do not replace with the gpt-5.6 alias.",
+      "cohort": "current_closed",
+      "enabled": true,
+      "model_id": "gpt-5.6-terra",
+      "pricing_usd_per_million": {
+        "input": 2.0,
+        "output": 12.0
+      },
+      "provider_identity": "openai-direct",
+      "provider_type": "openai_compatible",
+      "request": {
+        "max_completion_tokens": 1024,
+        "reasoning_effort": "none",
+        "response_format": {
+          "type": "json_object"
+        },
+        "seed": 20260522
+      },
+      "selection_source": "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+      "slot": "closed_openai_current"
+    },
+    {
+      "accounting_max_output_tokens": 1024,
+      "anthropic_version": "2023-06-01",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "base_url": "https://api.anthropic.com/v1",
+      "checkpoint_id": "claude-sonnet-5",
+      "checkpoint_note": "Anthropic documents dateless model IDs from generation 4.6 onward as pinned snapshots rather than evergreen aliases.",
+      "cohort": "current_closed",
+      "enabled": true,
+      "model_id": "claude-sonnet-5",
+      "pricing_usd_per_million": {
+        "input": 2.0,
+        "output": 10.0
+      },
+      "provider_identity": "anthropic-direct",
+      "provider_type": "anthropic_messages",
+      "request": {
+        "max_tokens": 1024,
+        "output_config": {
+          "effort": "low"
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "selection_source": "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "slot": "closed_anthropic_current"
+    },
+    {
+      "accounting_max_output_tokens": 1024,
+      "api_key_env": "OPENROUTER_API_KEY",
+      "base_url": "https://openrouter.ai/api/v1",
+      "checkpoint_id": "openai/gpt-oss-120b@b5c939de8f754692c1647ca79fbf85e8c1e70f8a",
+      "checkpoint_note": "Official Hugging Face checkpoint; OpenRouter is pinned to Groq with fallback disabled. OpenRouter currently does not disclose this endpoint's serving quantization.",
+      "cohort": "current_open_weight",
+      "enabled": true,
+      "model_id": "openai/gpt-oss-120b",
+      "pricing_usd_per_million": {
+        "input": 0.15,
+        "output": 0.6
+      },
+      "provider_identity": "groq",
+      "provider_type": "openai_compatible",
+      "request": {
+        "max_tokens": 1024,
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "groq"
+          ],
+          "require_parameters": true
+        },
+        "reasoning": {
+          "effort": "low",
+          "exclude": true
+        },
+        "response_format": {
+          "type": "json_object"
+        },
+        "seed": 20260522,
+        "temperature": 0.0
+      },
+      "selection_source": "https://openrouter.ai/openai/gpt-oss-120b/providers",
+      "slot": "openweight_gpt_oss_120b"
+    },
+    {
+      "accounting_max_output_tokens": 1024,
+      "api_key_env": "OPENROUTER_API_KEY",
+      "base_url": "https://openrouter.ai/api/v1",
+      "checkpoint_id": "mistralai/Mistral-Small-4-119B-2603@a11f36bebf709121056b1dbcc943d1c6afbe494d",
+      "checkpoint_note": "Official FP8 checkpoint; OpenRouter is pinned to Mistral with fallback disabled. OpenRouter currently does not disclose this endpoint's serving quantization.",
+      "cohort": "current_open_weight",
+      "enabled": true,
+      "model_id": "mistralai/mistral-small-2603",
+      "pricing_usd_per_million": {
+        "input": 0.15,
+        "output": 0.6
+      },
+      "provider_identity": "mistral",
+      "provider_type": "openai_compatible",
+      "request": {
+        "max_tokens": 1024,
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "mistral"
+          ],
+          "require_parameters": true
+        },
+        "reasoning": {
+          "effort": "none",
+          "exclude": true
+        },
+        "response_format": {
+          "type": "json_object"
+        },
+        "seed": 20260522,
+        "temperature": 0.0
+      },
+      "selection_source": "https://openrouter.ai/mistralai/mistral-small-2603/providers",
+      "slot": "openweight_mistral_small_4"
+    }
+  ],
+  "output_root": "outputs/revision_2026/probes/runs",
+  "paid_execution_authorized": true,
+  "probe": {
+    "name": "decompose",
+    "parent_manifest_prompt_sha256": "1343845271fe50b3d55ea1f2364f0fa6bbaeb2c65984998f62802320aef7a350",
+    "parent_verdict_run_id": "averitec-p0-current-models-20260818-v1",
+    "preanalysis_document": "Writing/V0.2/revision_plan/09_PREANALYSIS_ADDENDUM.md",
+    "preanalysis_section": "5",
+    "purpose": "E4 decomposition-then-verdict intervention in two fresh contexts.",
+    "type": "decompose"
+  },
+  "prompt": {
+    "stage1": {
+      "path": "Writing/V0.2/revision_plan/prompts/decompose_stage1.txt",
+      "sha256": "660018e98b0d25c2a72732c1fa08c3937e37aabf246ede298e8a4f4b8488942d"
+    },
+    "stage2": {
+      "path": "Writing/V0.2/revision_plan/prompts/decompose_stage2.txt",
+      "sha256": "7ba5622a0ff6d14f8249f29543670b6de7fd6be5c68eb38c5e3800146f14143b"
+    },
+    "system_instruction": "You are a careful fact-verification judge. Output valid JSON only."
+  },
+  "run_id": "averitec-probe-e4-decompose-20260901-v1",
+  "schema_version": "1.0",
+  "selection_policy": "Derived from the executed verdict manifest without changing the dataset pin, the sample map, the model roster, or decoding configuration. Only the prompt and the per-probe request deltas differ, so probe and verdict outputs are comparable on the same case.",
+  "smoke_case_ids": [
+    0,
+    2,
+    9,
+    1,
+    5
+  ],
+  "status": "frozen",
+  "timeout_seconds": 180
+}

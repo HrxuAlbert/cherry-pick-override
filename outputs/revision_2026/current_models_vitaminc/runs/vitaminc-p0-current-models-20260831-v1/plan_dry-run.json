@@ -1,0 +1,204 @@
+{
+  "api_calls_made": 0,
+  "case_count": 250,
+  "case_preview": [
+    {
+      "case_id": 0,
+      "evidence_sha256": "0ddbcf424670ae5d24442ac4dca8a86d1f5dd7df44c649a59927c644bc980227",
+      "gold_normal": "conflicting",
+      "prompt_characters": 2344,
+      "prompt_sha256": "6ad73fb491786ea6c466986e151e18439730ada785c38b2ef155e123a6acb6b1"
+    },
+    {
+      "case_id": 1,
+      "evidence_sha256": "97cabe7c7bb2f8255571c041e10f28195955f393c69f49ec1a5cda3caec1d11c",
+      "gold_normal": "conflicting",
+      "prompt_characters": 2177,
+      "prompt_sha256": "7b86feb5358ba4f3912cef06828dc52a9779e6c9128de4058f5e54aee0843e3b"
+    },
+    {
+      "case_id": 2,
+      "evidence_sha256": "42600aa4916b5bcd4f22a4ce1467b3d761b2f6da0a1133e6f459542fed2e648b",
+      "gold_normal": "conflicting",
+      "prompt_characters": 2325,
+      "prompt_sha256": "68718c7e93431f78b09cad4002d9d30d76c3262bbd382a4ae65968897e380e3d"
+    },
+    {
+      "case_id": 3,
+      "evidence_sha256": "4068135ed4db70f7f675e3cd4b7fc36966bf767f7f58ca88d37c5c5a7fee4882",
+      "gold_normal": "conflicting",
+      "prompt_characters": 2356,
+      "prompt_sha256": "5ad9d1f478791f3c90fdd7d870873869d1a6be238fbefe1a186081c2437b48fe"
+    },
+    {
+      "case_id": 4,
+      "evidence_sha256": "cd5cf3e94c1981df7df8ea03cbde335e1a50b39d3ce686045ae0f5162feb4394",
+      "gold_normal": "conflicting",
+      "prompt_characters": 2237,
+      "prompt_sha256": "1d6559ff0f8643a493a76a37ba01948f2d89286b484177dfb3d2cd635ff30529"
+    }
+  ],
+  "cost_guard": {
+    "by_model": [
+      {
+        "estimated_input_tokens": 289713,
+        "maximum_output_tokens": 128000,
+        "slot": "closed_openai_current",
+        "upper_bound_usd_without_retries": 2.115426
+      },
+      {
+        "estimated_input_tokens": 289713,
+        "maximum_output_tokens": 128000,
+        "slot": "closed_anthropic_current",
+        "upper_bound_usd_without_retries": 1.859426
+      },
+      {
+        "estimated_input_tokens": 289713,
+        "maximum_output_tokens": 256000,
+        "slot": "openweight_gpt_oss_120b",
+        "upper_bound_usd_without_retries": 0.197057
+      },
+      {
+        "estimated_input_tokens": 289713,
+        "maximum_output_tokens": 128000,
+        "slot": "openweight_mistral_small_4",
+        "upper_bound_usd_without_retries": 0.120257
+      }
+    ],
+    "manifest_cap_usd": 5.0,
+    "method": "input characters / 2 plus hard output-token caps",
+    "retry_ceiling_multiplier": 1,
+    "upper_bound_usd_with_all_retries_billed": 4.292166,
+    "upper_bound_usd_without_retries": 4.292166
+  },
+  "dataset": {
+    "case_count": 250,
+    "dataset_format": "materialized_json",
+    "evidence_order": "original",
+    "label_counts": {
+      "conflicting": 100,
+      "insufficient": 50,
+      "refute": 50,
+      "support": 50
+    },
+    "materialized_path": "outputs/revision_2026/current_models_vitaminc/input/vitaminc_mixed_source_map.json",
+    "max_evidence_characters": 1078
+  },
+  "execute_requested": false,
+  "generated_at": "2026-09-01T19:01:19.967429+00:00",
+  "manifest_path": "Writing/V0.2/revision_plan/current_models_vitaminc_manifest.json",
+  "manifest_sha256": "09cc87a5e912a3e7477cbadb2a52b2f4e276ced7f600bbdc48897b926f0692b8",
+  "manifest_status": "completed",
+  "mode": "dry-run",
+  "models": [
+    {
+      "api_key_env": "OPENAI_API_KEY",
+      "checkpoint_id": "gpt-5.6-terra",
+      "cohort": "current_closed",
+      "credential_present": true,
+      "model_id": "gpt-5.6-terra",
+      "provider_type": "openai_compatible",
+      "request": {
+        "max_completion_tokens": 512,
+        "reasoning_effort": "none",
+        "response_format": {
+          "type": "json_object"
+        },
+        "seed": 20260522
+      },
+      "slot": "closed_openai_current"
+    },
+    {
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "checkpoint_id": "claude-sonnet-5",
+      "cohort": "current_closed",
+      "credential_present": true,
+      "model_id": "claude-sonnet-5",
+      "provider_type": "anthropic_messages",
+      "request": {
+        "max_tokens": 512,
+        "output_config": {
+          "effort": "low"
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "slot": "closed_anthropic_current"
+    },
+    {
+      "api_key_env": "OPENROUTER_API_KEY",
+      "checkpoint_id": "openai/gpt-oss-120b@b5c939de8f754692c1647ca79fbf85e8c1e70f8a",
+      "cohort": "current_open_weight",
+      "credential_present": true,
+      "model_id": "openai/gpt-oss-120b",
+      "provider_type": "openai_compatible",
+      "request": {
+        "max_tokens": 1024,
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "groq"
+          ],
+          "require_parameters": true
+        },
+        "reasoning": {
+          "effort": "low",
+          "exclude": true
+        },
+        "response_format": {
+          "type": "json_object"
+        },
+        "seed": 20260522,
+        "temperature": 0.0
+      },
+      "slot": "openweight_gpt_oss_120b"
+    },
+    {
+      "api_key_env": "OPENROUTER_API_KEY",
+      "checkpoint_id": "mistralai/Mistral-Small-4-119B-2603@a11f36bebf709121056b1dbcc943d1c6afbe494d",
+      "cohort": "current_open_weight",
+      "credential_present": true,
+      "model_id": "mistralai/mistral-small-2603",
+      "provider_type": "openai_compatible",
+      "request": {
+        "max_tokens": 512,
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "mistral"
+          ],
+          "require_parameters": true
+        },
+        "reasoning": {
+          "effort": "none",
+          "exclude": true
+        },
+        "response_format": {
+          "type": "json_object"
+        },
+        "seed": 20260522,
+        "temperature": 0.0
+      },
+      "slot": "openweight_mistral_small_4"
+    }
+  ],
+  "paid_execution_authorized": false,
+  "planned_call_count": 1000,
+  "prompt": {
+    "max_prompt_characters": 3089,
+    "path": "Writing/V0.2/code_release/scripts/option_a_exp/prompts/judges/honest_4opt_strong.txt",
+    "system_sha256": "7f73fbbb85049ccb23997544c5a46c65091bd76a38c4525276bf4f87ca05189e",
+    "template_sha256": "1343845271fe50b3d55ea1f2364f0fa6bbaeb2c65984998f62802320aef7a350"
+  },
+  "selection": null,
+  "smoke_case_ids": [
+    0,
+    1,
+    100,
+    150,
+    200
+  ]
+}

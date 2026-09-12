@@ -1,0 +1,14 @@
+{
+  "bootstrap_resamples": 5000,
+  "human_audit_accessed": false,
+  "label_basis": "dataset_defined",
+  "manifest": {
+    "path": "outputs/revision_2026/current_models_vitaminc/runs/vitaminc-p0-current-models-20260831-v1/executed_manifest.json",
+    "sha256": "93cdf9116c77b0442debafc84031e38d14b06cfa23a90380115b80f737f36c3a"
+  },
+  "model_results": {
+    "path": "outputs/revision_2026/current_models_vitaminc/runs/vitaminc-p0-current-models-20260831-v1/raw_results_full.jsonl",
+    "sha256": "2b01cc6a29e0e2b573a58da5224801e9afd9ebce087014ca0fe20cfd548ddfab"
+  },
+  "seed": 20260826
+}

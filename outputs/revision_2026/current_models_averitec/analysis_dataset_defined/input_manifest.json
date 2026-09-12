@@ -1,0 +1,14 @@
+{
+  "bootstrap_resamples": 5000,
+  "human_audit_accessed": false,
+  "label_basis": "dataset_defined",
+  "manifest": {
+    "path": "outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/executed_manifest.json",
+    "sha256": "1827abb65b8bf77f0547a8102538638d381e0597f7bf6b56cb6c73a0bb4f417c"
+  },
+  "model_results": {
+    "path": "outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/raw_results_full.jsonl",
+    "sha256": "00568cdeb551a657ec907ca93bb651a8daa05bfa97cd39d3e5403a4e675b50e1"
+  },
+  "seed": 20260826
+}

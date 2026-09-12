@@ -1,0 +1,11 @@
+{
+  "ci_high": 0.25382200795724297,
+  "ci_low": 0.017690288629734208,
+  "comparison": "confidence_plus_structure_minus_confidence_only",
+  "metric": "AUPRC",
+  "n_cases": 161,
+  "observed_difference": 0.12526124972584146,
+  "resamples": 2000,
+  "seed": 20260826,
+  "unit": "case_cluster"
+}

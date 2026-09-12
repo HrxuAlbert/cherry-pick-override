@@ -1,0 +1,13 @@
+metric,model_a,model_b,n_cases,rate_a,rate_b,delta_b_minus_a,ci_low,ci_high
+dataset_defined_cco,closed_openai_current,closed_anthropic_current,150,0.29333333333333333,0.3,0.006666666666666654,-0.07333333333333333,0.08666666666666667
+pure_sr_accuracy,closed_openai_current,closed_anthropic_current,100,0.8,0.87,0.06999999999999995,-0.01,0.15
+dataset_defined_cco,closed_openai_current,openweight_gpt_oss_120b,150,0.29333333333333333,0.48,0.18666666666666665,0.1,0.2733333333333333
+pure_sr_accuracy,closed_openai_current,openweight_gpt_oss_120b,100,0.8,0.79,-0.010000000000000009,-0.09,0.07
+dataset_defined_cco,closed_openai_current,openweight_mistral_small_4,150,0.29333333333333333,0.21333333333333335,-0.07999999999999999,-0.16666666666666666,0.006666666666666667
+pure_sr_accuracy,closed_openai_current,openweight_mistral_small_4,100,0.8,0.68,-0.12,-0.22,-0.02
+dataset_defined_cco,closed_anthropic_current,openweight_gpt_oss_120b,150,0.3,0.48,0.18,0.08666666666666667,0.26666666666666666
+pure_sr_accuracy,closed_anthropic_current,openweight_gpt_oss_120b,100,0.87,0.79,-0.07999999999999996,-0.15,0.0
+dataset_defined_cco,closed_anthropic_current,openweight_mistral_small_4,150,0.3,0.21333333333333335,-0.08666666666666664,-0.17333333333333334,0.0
+pure_sr_accuracy,closed_anthropic_current,openweight_mistral_small_4,100,0.87,0.68,-0.18999999999999995,-0.3,-0.09
+dataset_defined_cco,openweight_gpt_oss_120b,openweight_mistral_small_4,150,0.48,0.21333333333333335,-0.2666666666666666,-0.36,-0.17333333333333334
+pure_sr_accuracy,openweight_gpt_oss_120b,openweight_mistral_small_4,100,0.79,0.68,-0.10999999999999999,-0.22,0.0

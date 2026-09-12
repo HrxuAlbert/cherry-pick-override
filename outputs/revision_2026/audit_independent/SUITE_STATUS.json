@@ -1,0 +1,127 @@
+{
+  "api_calls_made": 0,
+  "artifacts": [
+    {
+      "path": "outputs/revision_2026/audit_independent/cached_landscape/results.json",
+      "sha256": "268d86e50b19dc4821fc9897faefeb9b5e706e4b7c895c41412ad8e8698fab81"
+    },
+    {
+      "path": "outputs/revision_2026/audit_independent/feature_signals/cv_metrics.csv",
+      "sha256": "545d64e3ba9ebc86922f287a7a2e9b762a4e049dd7acec209e165e93daea4ed4"
+    },
+    {
+      "path": "outputs/revision_2026/audit_independent/error_taxonomy/taxonomy_metrics.csv",
+      "sha256": "2fa1825306840121c57cb94b57d8f4f6bea4bbb52ffe14ae623adf63d27ddd4d"
+    },
+    {
+      "path": "outputs/revision_2026/audit_independent/dataset_profiles/dataset_profiles.csv",
+      "sha256": "50fa634096a2b4455177a70abbce35fa9ad00e24d405c9870b4f22beac5be638"
+    },
+    {
+      "path": "outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/plan_dry-run.json",
+      "sha256": "c216bc983a6b41e3e2a783b87a2f08ca4cd0189950985dd561d7e319a497e48d"
+    },
+    {
+      "path": "outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/plan_smoke.json",
+      "sha256": "c94498b3259680f07024fe28d4f55e4e8abd567b32d7950fdbf0d8afe4260524"
+    },
+    {
+      "path": "outputs/revision_2026/current_models_vitaminc/runs/vitaminc-p0-current-models-20260831-v1/plan_dry-run.json",
+      "sha256": "c3995e3e191e518f999abd445d500aa11d11f6f7b57b08a15b67583969fe60d2"
+    },
+    {
+      "path": "outputs/revision_2026/current_models_vitaminc/runs/vitaminc-p0-current-models-20260831-v1/plan_smoke.json",
+      "sha256": "73b8083f321f996f15fade074e0e1308781d90dc8d1d05e0e117bd6bb981a8d3"
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/analyze_cached_model_landscape.py",
+        "--force"
+      ],
+      "last_output_line": "{\"status\": \"ok\", \"human_audit_accessed\": false, \"metric_rows\": 16, \"contrast_rows\": 16, \"output_dir\": \"outputs/revision_2026/audit_independent/cached_landscape\"}",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/analyze_feature_signals.py",
+        "--force"
+      ],
+      "last_output_line": "{\"status\": \"ok\", \"human_audit_accessed\": false, \"eligible_rows\": 344, \"cases\": 161, \"models\": 3, \"output_dir\": \"outputs/revision_2026/audit_independent/feature_signals\"}",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/analyze_error_taxonomy.py",
+        "--force"
+      ],
+      "last_output_line": "{\"status\": \"ok\", \"human_audit_accessed\": false, \"case_model_rows\": 750, \"taxonomy_rows\": 36, \"output_dir\": \"outputs/revision_2026/audit_independent/error_taxonomy\"}",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/profile_experiment_datasets.py",
+        "--force"
+      ],
+      "last_output_line": "{\"status\": \"ok\", \"datasets\": 2, \"cases\": 535, \"output_dir\": \"outputs/revision_2026/audit_independent/dataset_profiles\"}",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/run_current_models.py",
+        "--manifest",
+        "Writing/V0.2/revision_plan/current_models_manifest.json",
+        "--mode",
+        "dry-run"
+      ],
+      "last_output_line": "{\"status\": \"validated_no_api_calls\", \"mode\": \"dry-run\", \"cases\": 285, \"models\": 4, \"planned_calls\": 1140, \"plan\": \"outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/plan_dry-run.json\"}",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/run_current_models.py",
+        "--manifest",
+        "Writing/V0.2/revision_plan/current_models_manifest.json",
+        "--mode",
+        "smoke"
+      ],
+      "last_output_line": "{\"status\": \"validated_no_api_calls\", \"mode\": \"smoke\", \"cases\": 5, \"models\": 4, \"planned_calls\": 20, \"plan\": \"outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/plan_smoke.json\"}",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/run_current_models.py",
+        "--manifest",
+        "Writing/V0.2/revision_plan/current_models_vitaminc_manifest.json",
+        "--mode",
+        "dry-run"
+      ],
+      "last_output_line": "{\"status\": \"validated_no_api_calls\", \"mode\": \"dry-run\", \"cases\": 250, \"models\": 4, \"planned_calls\": 1000, \"plan\": \"outputs/revision_2026/current_models_vitaminc/runs/vitaminc-p0-current-models-20260831-v1/plan_dry-run.json\"}",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "Writing/V0.2/revision_plan/scripts/run_current_models.py",
+        "--manifest",
+        "Writing/V0.2/revision_plan/current_models_vitaminc_manifest.json",
+        "--mode",
+        "smoke"
+      ],
+      "last_output_line": "{\"status\": \"validated_no_api_calls\", \"mode\": \"smoke\", \"cases\": 5, \"models\": 4, \"planned_calls\": 20, \"plan\": \"outputs/revision_2026/current_models_vitaminc/runs/vitaminc-p0-current-models-20260831-v1/plan_smoke.json\"}",
+      "returncode": 0
+    }
+  ],
+  "generated_at": "2026-09-01T19:01:20.014953+00:00",
+  "human_audit_accessed": false,
+  "python": "/opt/anaconda3/bin/python3",
+  "status": "complete_no_human_no_api"
+}

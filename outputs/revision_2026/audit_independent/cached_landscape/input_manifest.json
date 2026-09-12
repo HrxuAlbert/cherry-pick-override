@@ -1,0 +1,16 @@
+{
+  "bootstrap_resamples": 5000,
+  "human_audit_accessed": false,
+  "inputs": {
+    "AVeriTeC": {
+      "path": "Writing/V0.2/code_release/outputs/option_a_exp/strengthening/e1_full_4label_utility/raw_results.jsonl",
+      "sha256": "c0317d0467c2b5d7e9e0cf9b9c47d8fd36f0a5b6c5547871074b57ffca1d8ac1"
+    },
+    "VitaminC-Mixed": {
+      "path": "Writing/V0.2/code_release/outputs/option_a_exp/strengthening/e4_vitaminc_mixed/raw_results.jsonl",
+      "sha256": "543d11d45c38f7ca16aa6141f23877da48cab3f72dbf44911296b81beb8e10e1"
+    }
+  },
+  "label_basis": "dataset_defined",
+  "seed": 20260826
+}

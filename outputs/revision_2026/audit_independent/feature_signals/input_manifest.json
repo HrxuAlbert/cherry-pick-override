@@ -1,0 +1,54 @@
+{
+  "bootstrap_resamples": 2000,
+  "feature_names": {
+    "confidence_only": [
+      "intercept",
+      "model::claude-sonnet-4-5",
+      "model::gpt-4o-mini",
+      "confidence_z_within_model"
+    ],
+    "confidence_plus_structure": [
+      "intercept",
+      "model::claude-sonnet-4-5",
+      "model::gpt-4o-mini",
+      "confidence_z_within_model",
+      "n_subclaims_z",
+      "n_material_subclaims_z",
+      "n_cited_evidence_ids_z",
+      "has_material_support",
+      "has_material_refute",
+      "has_material_mixed",
+      "has_material_insufficient"
+    ],
+    "model_only": [
+      "intercept",
+      "model::claude-sonnet-4-5",
+      "model::gpt-4o-mini"
+    ],
+    "structure_only": [
+      "intercept",
+      "model::claude-sonnet-4-5",
+      "model::gpt-4o-mini",
+      "n_subclaims_z",
+      "n_material_subclaims_z",
+      "n_cited_evidence_ids_z",
+      "has_material_support",
+      "has_material_refute",
+      "has_material_mixed",
+      "has_material_insufficient"
+    ]
+  },
+  "folds": 5,
+  "human_audit_accessed": false,
+  "l2": 1.0,
+  "label_basis": "dataset_conflict_proxy",
+  "predictions": {
+    "path": "Writing/V0.2/code_release/outputs/option_a_exp/strengthening/e1_full_4label_utility/raw_results.jsonl",
+    "sha256": "c0317d0467c2b5d7e9e0cf9b9c47d8fd36f0a5b6c5547871074b57ffca1d8ac1"
+  },
+  "seed": 20260826,
+  "validator": {
+    "path": "Writing/V0.2/code_release/outputs/option_a_exp/strengthening/e3_structured_certificate_validator_fewshot/raw_results.jsonl",
+    "sha256": "f9eb9a65adf628b1f15329c0dd50bce931f31ffc6101efd003c9980381651f52"
+  }
+}

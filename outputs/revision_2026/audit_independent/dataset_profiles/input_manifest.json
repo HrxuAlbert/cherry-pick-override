@@ -1,0 +1,23 @@
+{
+  "human_audit_accessed": false,
+  "inputs": [
+    {
+      "case_count": 285,
+      "dataset": "AVeriTeC",
+      "evidence_order": "original",
+      "manifest_path": "Writing/V0.2/revision_plan/current_models_manifest.json",
+      "manifest_sha256": "69dd245c179cc444591332921013d65a41067bfd39cc00dd4ede398c8efa81ab"
+    },
+    {
+      "case_count": 250,
+      "dataset": "VitaminC-Mixed",
+      "evidence_order": "original",
+      "manifest_path": "Writing/V0.2/revision_plan/current_models_vitaminc_manifest.json",
+      "manifest_sha256": "09cc87a5e912a3e7477cbadb2a52b2f4e276ced7f600bbdc48897b926f0692b8"
+    }
+  ],
+  "length_units": {
+    "characters": "Python Unicode code points",
+    "whitespace_tokens": "split on whitespace; descriptive only"
+  }
+}

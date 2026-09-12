@@ -1,0 +1,26 @@
+{
+  "closed_openai_current": {
+    "k": 18,
+    "n": 27,
+    "rate": 0.6666666666666666,
+    "median_items": 1.5
+  },
+  "closed_anthropic_current": {
+    "k": 23,
+    "n": 33,
+    "rate": 0.696969696969697,
+    "median_items": 2
+  },
+  "openweight_gpt_oss_120b": {
+    "k": 27,
+    "n": 58,
+    "rate": 0.46551724137931033,
+    "median_items": 2
+  },
+  "openweight_mistral_small_4": {
+    "k": 13,
+    "n": 37,
+    "rate": 0.35135135135135137,
+    "median_items": 2
+  }
+}

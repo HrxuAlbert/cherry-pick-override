@@ -1,0 +1,13 @@
+metric,model_a,model_b,n_cases,rate_a,rate_b,delta_b_minus_a,ci_low,ci_high
+dataset_defined_cco,closed_openai_current,closed_anthropic_current,100,0.38,0.38,0.0,-0.1,0.1
+pure_sr_accuracy,closed_openai_current,closed_anthropic_current,100,0.72,0.77,0.050000000000000044,-0.02,0.12
+dataset_defined_cco,closed_openai_current,openweight_gpt_oss_120b,100,0.38,0.24,-0.14,-0.23,-0.05
+pure_sr_accuracy,closed_openai_current,openweight_gpt_oss_120b,100,0.72,0.79,0.07000000000000006,0.01,0.13
+dataset_defined_cco,closed_openai_current,openweight_mistral_small_4,100,0.38,0.36,-0.020000000000000018,-0.13,0.09
+pure_sr_accuracy,closed_openai_current,openweight_mistral_small_4,100,0.72,0.74,0.020000000000000018,-0.06,0.1
+dataset_defined_cco,closed_anthropic_current,openweight_gpt_oss_120b,100,0.38,0.24,-0.14,-0.23,-0.05
+pure_sr_accuracy,closed_anthropic_current,openweight_gpt_oss_120b,100,0.77,0.79,0.020000000000000018,-0.04,0.08
+dataset_defined_cco,closed_anthropic_current,openweight_mistral_small_4,100,0.38,0.36,-0.020000000000000018,-0.13,0.09
+pure_sr_accuracy,closed_anthropic_current,openweight_mistral_small_4,100,0.77,0.74,-0.030000000000000027,-0.11,0.05
+dataset_defined_cco,openweight_gpt_oss_120b,openweight_mistral_small_4,100,0.24,0.36,0.12,0.01,0.22
+pure_sr_accuracy,openweight_gpt_oss_120b,openweight_mistral_small_4,100,0.79,0.74,-0.050000000000000044,-0.12,0.01

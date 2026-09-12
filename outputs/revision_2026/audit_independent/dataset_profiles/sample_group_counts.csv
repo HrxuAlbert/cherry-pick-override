@@ -1,0 +1,10 @@
+dataset,sample_group,n
+AVeriTeC,Conflicting-dev-all,38
+AVeriTeC,Conflicting-train,112
+AVeriTeC,Not Enough Evidence,35
+AVeriTeC,Refuted,50
+AVeriTeC,Supported,50
+VitaminC-Mixed,mixed-composite,100
+VitaminC-Mixed,pure-nei,50
+VitaminC-Mixed,pure-refutes,50
+VitaminC-Mixed,pure-supports,50
