@@ -46,13 +46,13 @@ Python 3.12 with `numpy`, `matplotlib`, and `scipy`. Install with
 
 | Script | Reproduces |
 |---|---|
-| `analyze_selective_typed_controller.py` | Table 7 (intervention ladder, AVeriTeC) and Table 9 (channel complementarity) |
-| `analyze_controllers_on_vitaminc.py`    | Table 15 (the same controllers on VitaminC-Mixed) |
-| `fair_random_stage1.py`                 | Apples-to-apples random Stage-1 null distributions (Figure 1 data, AVeriTeC + VitaminC) |
+| `analyze_selective_typed_controller.py` | The intervention-ladder table (AVeriTeC) and the channel-complementarity table |
+| `analyze_controllers_on_vitaminc.py`    | The VitaminC-Mixed replication table (the same controllers on VitaminC-Mixed) |
+| `fair_random_stage1.py`                 | Matched random Stage-1 null distributions (data for the random-veto figure, AVeriTeC + VitaminC) |
 | `plot_fig1_random_veto_selectivity.py`  | Superseded by the v2 copy under `scripts/revision_2026/` (see below) |
-| `diagnostic_analyses.py`                | Table 16 (panel-amplification anatomy) and the confidence-boundary numbers in the L3 subsection |
+| `diagnostic_analyses.py`                | The panel-amplification anatomy table and the confidence-boundary numbers in the L3 subsection |
 | `concept_diagnostics.py`                | Calibration / ECE; 4x4 gold-by-pred matrix; false-conflict rate on pure-S/R; panel-agreement on CCO; validator coverage on CCO |
-| `bootstrap_cis_and_baselines.py`        | The four paired-bootstrap CIs cited in Section 4 and the conflict-if-any panel baseline (Table 7, L2) |
+| `bootstrap_cis_and_baselines.py`        | The four paired-bootstrap CIs in the diagnostic-analyses section and the conflict-if-any panel baseline (intervention-ladder table, L2) |
 
 Run from the repo root (order matters: `fair_random_stage1.py` produces
 the JSON that `plot_fig1_random_veto_selectivity.py` consumes):
@@ -81,15 +81,15 @@ merely inspected.
 
 | Script (`scripts/revision_2026/`) | Reproduces |
 |---|---|
-| `analyze_current_model_results.py`     | Table 6 (four contemporary judges, both substrates) |
-| `analyze_commitment_probes.py`         | Table 8 and Figure 2 data (E1 fresh-context recognition probe) |
-| `plot_fig1_recognition.py`             | Figure 2 |
-| `analyze_prompt_ladder.py`             | Table 11 (E5 prompt-specification ladder) |
-| `analyze_decomposition_probe.py`       | Table 12 (E4 decomposition before verdict) |
-| `analyze_feature_signals.py`           | Table 10 (out-of-fold screening) |
-| `analyze_error_taxonomy.py`            | The error-taxonomy counts in Section 4 |
+| `analyze_current_model_results.py`     | The contemporary-judge replication table (four judges, both substrates) |
+| `analyze_commitment_probes.py`         | The recognition-rate table and the data for the recognition figure (E1 fresh-context recognition probe) |
+| `plot_fig1_recognition.py`             | The recognition figure |
+| `analyze_prompt_ladder.py`             | The prompt-specification ladder table (E5) |
+| `analyze_decomposition_probe.py`       | The decomposition-before-verdict table (E4) |
+| `analyze_feature_signals.py`           | The out-of-fold screening table |
+| `analyze_error_taxonomy.py`            | Error-taxonomy counts by structural category (supporting analysis) |
 | `analyze_cached_model_landscape.py`    | The cached-landscape cross-check |
-| `plot_fig1_random_veto_selectivity.py` | Figure 1 (v2 copy; the v1 script under `scripts/option_a_exp/` produced the v1 figure and still says `CCO`) |
+| `plot_fig1_random_veto_selectivity.py` | The random-veto figure (v2 copy; the v1 script under `scripts/option_a_exp/` produced the v1 figure and still says `CCO`) |
 | `run_current_models.py`, `run_commitment_probes.py` | The runners that made the API calls, including the spend guard and the append-only resume |
 | `export_prompt_appendix.py`            | The prompt appendix, generated from the files in `scripts/option_a_exp/prompts/judges/` and checked against the SHA-256 in each run manifest |
 
@@ -103,7 +103,7 @@ python3.12 scripts/revision_2026/analyze_decomposition_probe.py
 python3.12 scripts/revision_2026/plot_fig1_recognition.py
 ```
 
-Figure 1 needs the null distributions first, which the v1 script produces:
+The random-veto figure needs the null distributions first, which the v1 script produces:
 
 ```bash
 python3.12 scripts/option_a_exp/analysis/fair_random_stage1.py
@@ -195,17 +195,18 @@ For the validator (`e3_*`):
 
 - `honest.txt` — 3-option judge (S/R/NEI), used for L0 (pre-contract baseline)
 - `honest_4opt_strong.txt` — 4-option typed judge (S/R/I/C), used L1 onwards
-- `certificate_strict.txt` — zero-shot evidence-state validator (ablation 5 in §5)
+- `certificate_strict.txt` — zero-shot evidence-state validator (the zero-shot check in the channel-complementarity tests)
 - `certificate_strict_fewshot.txt` — few-shot evidence-state validator (used in L4/L5)
 
 ## Models
 
-The historical panel (v1, still the subject of Table 7): Anthropic Claude
+The historical panel (v1, still the subject of the intervention-ladder table): Anthropic Claude
 Haiku 4.5, Anthropic Claude Sonnet 4.5, OpenAI GPT-4o-mini, with Claude
 Haiku 4.5 as the validator.
 
-The frozen replication added in v2 (Table 6, and the probes in Sections 5
-and 6) uses four judges scored individually, two proprietary and two
+The frozen replication added in v2 (the contemporary-judge replication table,
+and the probes in the recognition and channel-complementarity sections) uses
+four judges scored individually, two proprietary and two
 open-weight: GPT-5.6 Terra, Claude Sonnet 5, gpt-oss-120b and Mistral
 Small 4. Model identifiers, providers and the resolved roster for each run
 are recorded in that run's `executed_manifest.json`.
