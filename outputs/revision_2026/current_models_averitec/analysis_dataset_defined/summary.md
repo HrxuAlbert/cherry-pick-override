@@ -1,6 +1,6 @@
 # Current-model AVeriTeC results (dataset-defined)
 
-> This report is audit-independent. Human-confirmed CCO is computed separately after the blinded labels are frozen.
+> This report is audit-independent: it uses dataset labels only.
 
 | Model slot | Dataset CCO | 95% Wilson | Conflict recall | Pure S/R accuracy | False conflict | Insufficient directional | Parse failure |
 |---|---:|---:|---:|---:|---:|---:|---:|

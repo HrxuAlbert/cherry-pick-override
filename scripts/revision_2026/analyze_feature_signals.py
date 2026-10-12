@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Audit-independent confidence-versus-structure diagnostic.
 
-The pending human labels are not accessed. Instead, this script uses the
+Human labels are not accessed. Instead, this script uses the
 AVeriTeC dataset conflict label as an explicitly provisional target and tests
 whether cached structural-validator features add screening information beyond
 model confidence. Cross-validation is grouped by case, all preprocessing is
@@ -469,7 +469,7 @@ def write_summary(
     models = Counter(row["model"] for row in source_rows)
     lines = [
         "# Confidence versus evidence-structure diagnostic\n\n",
-        "> Provisional scope: the target is the AVeriTeC dataset conflict label, not the pending human audit. These numbers diagnose the existing cache and cannot serve as the final human-confirmed E4 result.\n\n",
+        "> Provisional scope: the target is the AVeriTeC dataset conflict label. These numbers diagnose the existing cache and are not human-confirmed.\n\n",
         f"Eligible directional outputs: {len(source_rows)} from {len(models)} models and {len({row['case_id'] for row in source_rows})} cases. Five-fold cross-validation is grouped by case. Model fixed effects are included in every specification.\n\n",
         "| Feature specification | AUPRC | AUROC | Recall @ top 10% | Recall @ top 20% | Recall @ top 30% |\n",
         "|---|---:|---:|---:|---:|---:|\n",

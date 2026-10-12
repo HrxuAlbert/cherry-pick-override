@@ -1,6 +1,6 @@
 # Confidence versus evidence-structure diagnostic
 
-> Provisional scope: the target is the AVeriTeC dataset conflict label, not the pending human audit. These numbers diagnose the existing cache and cannot serve as the final human-confirmed E4 result.
+> Provisional scope: the target is the AVeriTeC dataset conflict label. These numbers diagnose the existing cache and are not human-confirmed.
 
 Eligible directional outputs: 344 from 3 models and 161 cases. Five-fold cross-validation is grouped by case. Model fixed effects are included in every specification.
 

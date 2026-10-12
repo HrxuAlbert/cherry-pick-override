@@ -189,7 +189,7 @@ def main() -> None:
     write_csv(output_dir / "taxonomy_metrics.csv", metrics)
     lines = [
         "# Dataset-defined CCO error taxonomy\n\n",
-        "> Categories are assigned by the cached structural validator and the target uses dataset conflict labels. Human-confirmed error taxonomy remains pending.\n\n",
+        "> Categories are assigned by the cached structural validator and the target uses dataset conflict labels; the taxonomy is not human-confirmed.\n\n",
         "| Dataset | Model | Structural category | Conflict cases | Dataset CCO | CCO rate | Support / Refute | Mean CCO confidence |\n",
         "|---|---|---|---:|---:|---:|---:|---:|\n",
     ]

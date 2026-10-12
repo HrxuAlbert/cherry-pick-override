@@ -353,7 +353,7 @@ def write_summary(
 ) -> None:
     lines = [
         "# Audit-independent cached-model landscape\n\n",
-        "> Scope: all CCO values below use dataset labels, not the pending human audit.\n\n",
+        "> Scope: all CCO values below use dataset labels.\n\n",
         "## Model/system metrics\n\n",
         "| Dataset | Model/system | Accuracy | Macro-F1 | Dataset CCO | 95% Wilson | Conflict recall | Pure S/R acc. | False conflict | Insufficient directional |\n",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|\n",

@@ -267,7 +267,7 @@ def main() -> None:
     write_csv(output_dir / "paired_model_contrasts.csv", contrasts)
     lines = [
         f"# Current-model {dataset_name} results (dataset-defined)\n\n",
-        "> This report is audit-independent. Human-confirmed CCO is computed separately after the blinded labels are frozen.\n\n",
+        "> This report is audit-independent: it uses dataset labels only.\n\n",
         "| Model slot | Dataset CCO | 95% Wilson | Conflict recall | Pure S/R accuracy | False conflict | Insufficient directional | Parse failure |\n",
         "|---|---:|---:|---:|---:|---:|---:|---:|\n",
     ]

@@ -1,6 +1,6 @@
 # Dataset-defined CCO error taxonomy
 
-> Categories are assigned by the cached structural validator and the target uses dataset conflict labels. Human-confirmed error taxonomy remains pending.
+> Categories are assigned by the cached structural validator and the target uses dataset conflict labels; the taxonomy is not human-confirmed.
 
 | Dataset | Model | Structural category | Conflict cases | Dataset CCO | CCO rate | Support / Refute | Mean CCO confidence |
 |---|---|---|---:|---:|---:|---:|---:|

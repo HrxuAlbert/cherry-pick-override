@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
-"""Inter-reviewer agreement for the blind construct audit.
+"""Inter-reviewer agreement for a blinded two-reviewer labelling exercise.
 
-Reads two reviewer workbooks, matches them by audit ID, and reports the
-statistics required by ``02_HUMAN_AUDIT_PROTOCOL_V2.md`` §7: exact five-way
-agreement, binary agreement on preserve-conflict versus everything else,
-Cohen's kappa for both views, Gwet's AC1 as a prevalence-robust sensitivity
-statistic, per-label marginals, and the full disagreement matrix.
+Reads two reviewer workbooks, matches them by audit ID, and reports exact
+five-way agreement, binary agreement on preserve-conflict versus everything
+else, Cohen's kappa for both views, Gwet's AC1 as a prevalence-robust
+sensitivity statistic, per-label marginals, and the full disagreement matrix.
 
-It also prints the disagreement rows themselves, because the calibration
-round's purpose is to drive a rubric discussion, not to produce a number.
+It also prints the disagreement rows themselves, because the exercise is meant
+to drive a rubric discussion, not only to produce a number.
 
-Two guards matter. The script never reads the gold label, the model outputs,
-or the ID map, so running it does not break Stage-1 blinding. And per protocol
-§4 the calibration round is excluded from the final agreement statistics; the
-``--stage`` flag is recorded in the output so a calibration result cannot later
-be mistaken for the main-audit one.
+One guard matters. The script never reads the gold label, the model outputs,
+or the ID map, so running it does not break blinding. The ``--stage`` flag is
+recorded in the output so that results from different stages are kept apart.
 """
 
 from __future__ import annotations

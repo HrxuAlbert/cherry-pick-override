@@ -1,6 +1,6 @@
 # Audit-independent cached-model landscape
 
-> Scope: all CCO values below use dataset labels, not the pending human audit.
+> Scope: all CCO values below use dataset labels.
 
 ## Model/system metrics
 
