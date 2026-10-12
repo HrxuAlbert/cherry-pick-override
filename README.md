@@ -132,14 +132,13 @@ than leaving them to fail:
 
 ### What is not here, and why
 
-The paper describes a two-reviewer human audit of the AVeriTeC sample that was
-not completed, and reports only its calibration round (Section 7). **None of
-the audit material is in this release**: not the reviewers' annotations, not
-the blinding map, not the workbook builders. Two people labelled those
-twenty claims, and publishing per-reviewer judgements would identify them.
-`analyze_audit_agreement.py` is included so the agreement statistics in
-Section 7 can be read off the code that computed them, but it has no data to
-run against here.
+The paper's limitations section reports a two-reviewer agreement check on
+twenty claims from the AVeriTeC sample. **None of that annotation material is
+in this release**: not the reviewers' annotations, not the blinding map, not
+the workbook builders. Two people labelled those twenty claims, and publishing
+per-reviewer judgements would identify them. `analyze_audit_agreement.py` is
+included so the agreement statistics in that section can be read off the code
+that computed them, but it has no data to run against here.
 
 Also omitted: runs superseded by a later configuration (the E2b 512-token
 pass, replaced at 1024 tokens after truncation bias was found, and an E1 smoke
