@@ -78,6 +78,15 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def relative_to_workspace(path: Path) -> str:
+    """Record inputs relative to the release root, so an output does not carry
+    the absolute location of whoever ran the analysis."""
+    try:
+        return str(Path(path).resolve().relative_to(WORKSPACE.resolve()))
+    except ValueError:
+        return Path(path).name
+
+
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
     if n == 0:
         return (float("nan"), float("nan"))
@@ -105,6 +114,10 @@ def latest_ok(rows: list[dict[str, Any]], value: Any) -> dict[tuple[str, int], A
 
 
 def stratum_of(gold: str, verdict: str) -> str | None:
+    # S_preserved here is every gold-conflicting case that was not committed
+    # directionally. The pre-analysis addendum (section 3.2) defined it more
+    # narrowly, by a CONFLICTING verdict; that stratum is reported separately as
+    # S_preserved_prespecified, and gate G1 is evaluated on both (see main).
     if gold == "conflicting":
         return "S_cco" if verdict in DIRECTIONAL else "S_preserved"
     if gold in DIRECTIONAL:
@@ -158,8 +171,8 @@ def main() -> None:
 
     models = sorted({slot for slot, _ in verdicts})
     report: dict[str, Any] = {
-        "probe_run": str(args.probe),
-        "verdict_run": str(args.verdicts),
+        "probe_run": relative_to_workspace(args.probe),
+        "verdict_run": relative_to_workspace(args.verdicts),
         "bootstrap": {"resamples": BOOTSTRAP_RESAMPLES, "seed": BOOTSTRAP_SEED},
         "gate_g1": {"min_preserved": G1_MIN_PRESERVED, "max_pure_correct": G1_MAX_PURE_CORRECT},
         "models": {},
@@ -179,6 +192,8 @@ def main() -> None:
             if stratum is None:
                 continue
             by_stratum[stratum].append(1 if answer == "yes" else 0)
+            if g == "conflicting" and verdict == "conflicting":
+                by_stratum["S_preserved_prespecified"].append(1 if answer == "yes" else 0)
             if g == "conflicting":
                 commit = "directional" if verdict in DIRECTIONAL else "non-directional"
                 table[(answer, commit)] += 1
@@ -190,7 +205,8 @@ def main() -> None:
             return {"k": k, "n": n, "rate": (k / n) if n else None, "wilson": [lo, hi]}
 
         rates = {name: rate(name) for name in
-                 ("S_cco", "S_preserved", "S_pure_correct", "S_pure_other", "S_insufficient")}
+                 ("S_cco", "S_preserved", "S_preserved_prespecified", "S_pure_correct",
+                  "S_pure_other", "S_insufficient")}
         lo, hi = bootstrap_unpaired(
             by_stratum.get("S_cco", []),
             by_stratum.get("S_pure_correct", []),
@@ -213,6 +229,13 @@ def main() -> None:
             "delta_spec": delta,
             "delta_spec_ci": [lo, hi],
             "g1_checks": checks,
+            # The same gate with the first condition evaluated on the stratum as the
+            # pre-analysis addendum defined it (gold conflicting, verdict CONFLICTING).
+            "g1_pass_prespecified_stratum": bool(
+                (rates["S_preserved_prespecified"]["rate"] or 0) >= G1_MIN_PRESERVED
+                and checks["pure_correct_lt_0.50"]
+                and checks["delta_interval_excludes_zero"]
+            ),
             "g1_pass": all(checks.values()),
             "recognition_by_commitment_gold_conflicting": {
                 f"{a}|{c}": n for (a, c), n in sorted(table.items())

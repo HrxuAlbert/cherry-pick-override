@@ -1,0 +1,155 @@
+{
+  "bootstrap": {
+    "resamples": 5000,
+    "seed": 0,
+    "unit": "case"
+  },
+  "averitec": {
+    "three_option": {
+      "n": 150,
+      "panel": {
+        "k": 133,
+        "rate": 0.8866666666666667
+      },
+      "members": {
+        "claude-haiku-4-5": {
+          "k": 126,
+          "rate": 0.84,
+          "panel_minus_member": 0.04666666666666667,
+          "ci": [
+            0.013333333333333334,
+            0.08
+          ]
+        },
+        "claude-sonnet-4-5": {
+          "k": 131,
+          "rate": 0.8733333333333333,
+          "panel_minus_member": 0.013333333333333334,
+          "ci": [
+            -0.04,
+            0.06666666666666667
+          ]
+        },
+        "gpt-4o-mini": {
+          "k": 128,
+          "rate": 0.8533333333333334,
+          "panel_minus_member": 0.03333333333333333,
+          "ci": [
+            -0.02,
+            0.08666666666666667
+          ]
+        }
+      }
+    },
+    "typed_four_option": {
+      "n": 150,
+      "panel": {
+        "k": 28,
+        "rate": 0.18666666666666668
+      },
+      "members": {
+        "claude-haiku-4-5": {
+          "k": 43,
+          "rate": 0.2866666666666667,
+          "panel_minus_member": -0.1,
+          "ci": [
+            -0.15333333333333332,
+            -0.04666666666666667
+          ]
+        },
+        "claude-sonnet-4-5": {
+          "k": 30,
+          "rate": 0.2,
+          "panel_minus_member": -0.013333333333333334,
+          "ci": [
+            -0.06666666666666667,
+            0.03333333333333333
+          ]
+        },
+        "gpt-4o-mini": {
+          "k": 36,
+          "rate": 0.24,
+          "panel_minus_member": -0.05333333333333334,
+          "ci": [
+            -0.11333333333333333,
+            0.006666666666666667
+          ]
+        }
+      }
+    }
+  },
+  "vitaminc_mixed": {
+    "three_option": {
+      "n": 100,
+      "panel": {
+        "k": 77,
+        "rate": 0.77
+      },
+      "members": {
+        "claude-haiku-4-5": {
+          "k": 77,
+          "rate": 0.77,
+          "panel_minus_member": 0.0,
+          "ci": [
+            -0.06,
+            0.06
+          ]
+        },
+        "claude-sonnet-4-5": {
+          "k": 73,
+          "rate": 0.73,
+          "panel_minus_member": 0.04,
+          "ci": [
+            -0.01,
+            0.1
+          ]
+        },
+        "gpt-4o-mini": {
+          "k": 86,
+          "rate": 0.86,
+          "panel_minus_member": -0.09,
+          "ci": [
+            -0.16,
+            -0.03
+          ]
+        }
+      }
+    },
+    "typed_four_option": {
+      "n": 100,
+      "panel": {
+        "k": 30,
+        "rate": 0.3
+      },
+      "members": {
+        "claude-haiku-4-5": {
+          "k": 44,
+          "rate": 0.44,
+          "panel_minus_member": -0.14,
+          "ci": [
+            -0.22,
+            -0.07
+          ]
+        },
+        "claude-sonnet-4-5": {
+          "k": 32,
+          "rate": 0.32,
+          "panel_minus_member": -0.02,
+          "ci": [
+            -0.08,
+            0.03
+          ]
+        },
+        "gpt-4o-mini": {
+          "k": 31,
+          "rate": 0.31,
+          "panel_minus_member": -0.01,
+          "ci": [
+            -0.11,
+            0.09
+          ]
+        }
+      }
+    }
+  }
+}

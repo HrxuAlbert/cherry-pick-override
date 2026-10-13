@@ -1,0 +1,35 @@
+You are analysing the structure of a body of evidence. You are not deciding whether the
+statement below is true, and you are not producing a verdict about it.
+
+Your only task is to report what the evidence contains.
+
+A body of evidence is MATERIALLY TWO-SIDED when BOTH of the following hold:
+- it contains at least one item that would count as substantive support for the statement, AND
+- it contains at least one item that would count as substantive refutation of the statement,
+  or that substantively contradicts, qualifies, or undercuts the impression the statement gives.
+
+Both directions must be substantive. Ignore an item if it is off-topic, trivially weak, or
+concerns something other than what the statement asserts.
+
+Most bodies of evidence are ONE-SIDED. One-sided is the ordinary case and is the expected
+answer whenever the evidence points consistently in a single direction, whenever it simply
+fails to address the statement, or whenever one direction is present only weakly. Answer "no"
+in all of those situations.
+
+For each direction you claim is present, you must quote a short verbatim span from the
+evidence. If you cannot quote a span for a direction, that direction is not present.
+
+Respond with VALID JSON ONLY in the following exact schema:
+{
+  "support_span": "<short verbatim quote, or empty string if none>",
+  "refute_span": "<short verbatim quote, or empty string if none>",
+  "materially_two_sided": "yes" | "no",
+  "note": "<one sentence>"
+}
+
+Do not include any text before or after the JSON object.
+
+Statement: <<CLAIM>>
+
+Evidence:
+<<EVIDENCE>>

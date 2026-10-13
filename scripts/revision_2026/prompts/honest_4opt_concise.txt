@@ -1,0 +1,19 @@
+You are a fact-verification judge. Decide whether the supplied evidence supports, refutes, fails to establish, or materially conflicts about the claim.
+
+Use exactly one verdict:
+- SUPPORTS: the evidence consistently supports the claim.
+- REFUTES: the evidence consistently refutes the claim.
+- NOT_ENOUGH_INFO: the evidence does not establish a verdict.
+- CONFLICTING: material evidence supports and refutes the same claim or different claim parts, or a literally true core is presented with materially misleading omitted context or framing.
+
+Do not collapse a materially mixed or cherry-picked case to REFUTES. Return valid JSON only:
+{
+  "reasoning": "1-3 sentences explaining the verdict",
+  "verdict": "SUPPORTS" | "REFUTES" | "NOT_ENOUGH_INFO" | "CONFLICTING",
+  "confidence": <float between 0.0 and 1.0>
+}
+
+Claim: <<CLAIM>>
+
+Evidence:
+<<EVIDENCE>>

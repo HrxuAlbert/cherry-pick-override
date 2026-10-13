@@ -78,6 +78,15 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def relative_to_workspace(path: Path) -> str:
+    """Record inputs relative to the release root, so an output does not carry
+    the absolute location of whoever ran the analysis."""
+    try:
+        return str(Path(path).resolve().relative_to(WORKSPACE.resolve()))
+    except ValueError:
+        return Path(path).name
+
+
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
     if n == 0:
         return (float("nan"), float("nan"))
@@ -171,11 +180,16 @@ def main() -> None:
     gold = {int(r["case_id"]): r["gold_normal"] for r in verdict_rows}
     conflicting = sorted(c for c, g in gold.items() if g == "conflicting")
     pure = sorted(c for c, g in gold.items() if g in DIRECTIONAL)
+    # The insufficiency instance under the same variants. The strong prompt argues
+    # for CONFLICTING and not for INSUFFICIENT, so whether the two overcommitment
+    # rates stay comparable under a weaker wording is part of the same question.
+    insufficient = sorted(c for c, g in gold.items() if g == "insufficient")
 
     report: dict[str, Any] = {
         "bootstrap": {"resamples": BOOTSTRAP_RESAMPLES, "seed": BOOTSTRAP_SEED, "unit": "case"},
         "n_gold_conflicting": len(conflicting),
         "n_gold_pure": len(pure),
+        "n_gold_insufficient": len(insufficient),
         "variants": {},
     }
 
@@ -184,7 +198,7 @@ def main() -> None:
         rows = load_jsonl(path)
         table = verdicts_of(rows)
         entry: dict[str, Any] = {
-            "run": str(path),
+            "run": relative_to_workspace(path),
             "rows": len(rows),
             "status_counts": dict(Counter(r["status"] for r in rows)),
             "models": {},
@@ -193,6 +207,7 @@ def main() -> None:
             entry["models"][slot] = {
                 "cpo": contrast(strong, table, slot, conflicting, "directional"),
                 "false_conflict": contrast(strong, table, slot, pure, "conflicting"),
+                "ovc_insufficient": contrast(strong, table, slot, insufficient, "directional"),
             }
         report["variants"][variant] = entry
 
@@ -215,6 +230,15 @@ def main() -> None:
             print(f"{slot:<30}{c['n']:>5}{c['strong']:>12.3f}{c['variant']:>10.3f}"
                   f"{c['delta']:>+9.3f}{f'[{ci[0]:+.3f}, {ci[1]:+.3f}]':>22}"
                   f"{f['delta']:>+10.3f}")
+    for variant in VARIANTS:
+        print(f"\n=== {variant}: directional rate on gold-INSUFFICIENT, strong vs variant ===")
+        for slot, d in report["variants"][variant]["models"].items():
+            o = d["ovc_insufficient"]
+            if not o.get("n"):
+                continue
+            ci = o["ci"]
+            print(f"{slot:<30}{o['n']:>5}{o['strong']:>12.3f}{o['variant']:>10.3f}"
+                  f"{o['delta']:>+9.3f}{f'[{ci[0]:+.3f}, {ci[1]:+.3f}]':>22}")
     print(f"\nWrote {args.output_dir / 'e5_prompt_ladder.json'}")
 
 

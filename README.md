@@ -29,7 +29,8 @@ reader can audit what was sent to the models.
 ├── scripts/
 │   ├── option_a_exp/analysis/        # v1: 7 analysis scripts
 │   ├── option_a_exp/prompts/judges/  # the 4 prompts, reproduced in the appendix
-│   └── revision_2026/                # v2: runners, analysers, plot scripts
+│   ├── revision_2026/                # v2: runners, analysers, plot scripts
+│   └── revision_2026/prompts/        # v2: templates of the probe experiments
 ├── tests/revision_2026/              # v2: unit tests for the above
 ├── manifests/                        # v2: pre-specified model rosters for the replication
 └── outputs/
@@ -88,16 +89,19 @@ merely inspected.
 | Script (`scripts/revision_2026/`) | Reproduces |
 |---|---|
 | `analyze_current_model_results.py`     | The contemporary-judge replication table (four judges, both datasets) |
-| `analyze_commitment_probes.py`         | The recognition-rate table and the data for the recognition figure (E1 fresh-context recognition probe) |
+| `analyze_commitment_probes.py`         | The recognition-rate table and the data for the recognition figure (E1 fresh-context recognition probe); also reports the preserved stratum as the pre-analysis plan defined it |
 | `plot_fig1_recognition.py`             | The recognition figure |
-| `analyze_prompt_ladder.py`             | The prompt-specification ladder table (E5) |
+| `analyze_prompt_ladder.py`             | The prompt-specification ladder table (E5), and the same comparison on the gold-Insufficient claims |
 | `analyze_decomposition_probe.py`       | The decomposition-before-verdict table (E4) |
+| `analyze_self_enumeration.py`          | The self-enumeration counts in the recognition section and their control rate on correctly committed one-sided claims |
+| `analyze_panel_members.py`             | The panel-member table: each member's rate beside the majority-vote panel's |
+| `export_confusion_tables.py`           | The appendix table of verdicts by gold label, for the panel and the four contemporary judges |
 | `analyze_feature_signals.py`           | The out-of-fold screening table |
 | `analyze_error_taxonomy.py`            | Error-taxonomy counts by structural category (supporting analysis) |
 | `analyze_cached_model_landscape.py`    | The cached-landscape cross-check |
 | `plot_fig1_random_veto_selectivity.py` | The random-veto figure (v2 copy; the v1 script under `scripts/option_a_exp/` produced the v1 figure and still says `CCO`) |
 | `run_current_models.py`, `run_commitment_probes.py` | The runners that made the API calls, including the spend guard and the append-only resume |
-| `export_prompt_appendix.py`            | The prompt appendix, generated from the files in `scripts/option_a_exp/prompts/judges/` and checked against the SHA-256 in each run manifest |
+| `export_prompt_appendix.py`            | The prompt appendix, generated from the files in `scripts/option_a_exp/prompts/judges/` and `scripts/revision_2026/prompts/`, each checked against the SHA-256 recorded for it |
 
 The analysis scripts read from `outputs/revision_2026/` and need no API access.
 Run them from the repo root:
@@ -106,6 +110,8 @@ Run them from the repo root:
 python3.12 scripts/revision_2026/analyze_commitment_probes.py
 python3.12 scripts/revision_2026/analyze_prompt_ladder.py
 python3.12 scripts/revision_2026/analyze_decomposition_probe.py
+python3.12 scripts/revision_2026/analyze_self_enumeration.py
+python3.12 scripts/revision_2026/analyze_panel_members.py
 python3.12 scripts/revision_2026/plot_fig1_recognition.py
 ```
 
@@ -131,8 +137,9 @@ than leaving them to fail:
   rebuild the case-to-source maps from the AVeriTeC and VitaminC development
   sets. Those are third-party datasets and are not redistributed here; obtain
   them from the original releases and pass `--source`.
-- `build_probe_manifests.py` also reads prompt templates from a path in the
-  author's working tree. The manifests it would produce are already shipped in
+- `build_probe_manifests.py` looks for the probe templates at their path in the
+  author's working tree. The templates themselves are shipped under
+  `scripts/revision_2026/prompts/`. The manifests it would produce are already shipped in
   each run directory as `executed_manifest.json`, which is what the analysers
   read, so nothing downstream depends on re-running it.
 
@@ -203,6 +210,13 @@ For the validator (`e3_*`):
 - `honest_4opt_strong.txt` — 4-option typed judge (S/R/I/C), used L1 onwards
 - `certificate_strict.txt` — zero-shot evidence-state validator (the zero-shot check in the channel-complementarity tests)
 - `certificate_strict_fewshot.txt` — few-shot evidence-state validator (used in L5 and L7)
+
+Templates of the probe experiments, under `scripts/revision_2026/prompts/`:
+
+- `probe_recognition_binary.txt` — the fresh-context recognition probe
+- `honest_4opt_concise.txt`, `honest_4opt_neutral.txt` — the reduced and neutral specifications of the four labels
+- `decompose_stage1.txt`, `decompose_stage2.txt` — the two stages of the decomposition condition
+- `verdict_letter_first.txt`, `honest_4opt_permuted.txt` — the token-level probes, reported in the paper as uninformative
 
 ## Models
 

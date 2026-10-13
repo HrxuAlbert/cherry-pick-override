@@ -26,6 +26,7 @@ a prompt that was not the one executed, so it is a hard error.
 """
 
 from __future__ import annotations
+
 def _cpo_workspace(_f=__file__):
     """Resolve the release root.
 
@@ -68,6 +69,15 @@ _PROMPT_CANDIDATES = (
     WORKSPACE / "scripts/option_a_exp/prompts/judges",
 )
 PROMPTS = next((p for p in _PROMPT_CANDIDATES if p.is_dir()), _PROMPT_CANDIDATES[0])
+# Templates of the probe experiments (weaker specifications, decomposition,
+# recognition probe): beside this script's parent in the author's tree, under
+# scripts/revision_2026/prompts in the release.
+_PROBE_PROMPT_CANDIDATES = (
+    WORKSPACE / "Writing/V0.2/revision_plan/prompts",
+    WORKSPACE / "scripts/revision_2026/prompts",
+)
+PROBE_PROMPTS = next((p for p in _PROBE_PROMPT_CANDIDATES if p.is_dir()),
+                     _PROBE_PROMPT_CANDIDATES[0])
 # Default output: the manuscript tree when present, otherwise beside the
 # release so the script has somewhere to write without --output.
 _OUTPUT_CANDIDATES = (
@@ -86,10 +96,24 @@ JUDGE = ("honest_4opt_strong.txt",
          "1343845271fe50b3d55ea1f2364f0fa6bbaeb2c65984998f62802320aef7a350")
 VALIDATOR = ("certificate_strict_fewshot.txt",
              "0ca38822936d9fae481b6f4ea6699202656c56e211955ca71c350ea7af42ac26")
+# The three-option prompt of the pre-contract baseline (v1 runs).
+THREE_OPTION = ("honest.txt",
+                "7ddcc0fff2f3bfa0107107bfd9c907257cb53eab65a1c785c04fa401eaab2564")
+# (file, SHA-256 recorded under prompt/*/sha256 in that run's executed manifest)
+REDUCED = ("honest_4opt_concise.txt",
+           "9575a037c44f6be605c754903c15650eadb803978c387da5e51a1523ffc4dcab")
+NEUTRAL = ("honest_4opt_neutral.txt",
+           "b1e1d9f0c763d7d9642fb2bdff8dd14680b380ef316be4f31b4669ab4cb989e1")
+DECOMPOSE_1 = ("decompose_stage1.txt",
+               "660018e98b0d25c2a72732c1fa08c3937e37aabf246ede298e8a4f4b8488942d")
+DECOMPOSE_2 = ("decompose_stage2.txt",
+               "7ba5622a0ff6d14f8249f29543670b6de7fd6be5c68eb38c5e3800146f14143b")
+RECOGNITION = ("probe_recognition_binary.txt",
+               "3a5c8c83e53b309a1e3aba0b3943c28fa6024b33555c7158a008a1513e530a23")
 
 
-def load_verified(name: str, expected: str) -> str:
-    path = PROMPTS / name
+def load_verified(name: str, expected: str, directory: Path | None = None) -> str:
+    path = (directory or PROMPTS) / name
     raw = path.read_bytes()
     actual = hashlib.sha256(raw).hexdigest()
     if actual != expected:
@@ -127,6 +151,11 @@ def main() -> None:
 
     judge = load_verified(*JUDGE)
     validator = load_verified(*VALIDATOR)
+    three_option = load_verified(*THREE_OPTION)
+    probe_bodies = {key: load_verified(*spec, directory=PROBE_PROMPTS)
+                    for key, spec in (("__REDUCED_BODY__", REDUCED), ("__NEUTRAL_BODY__", NEUTRAL),
+                                      ("__DECOMPOSE1_BODY__", DECOMPOSE_1), ("__DECOMPOSE2_BODY__", DECOMPOSE_2),
+                                      ("__RECOGNITION_BODY__", RECOGNITION))}
 
     tex = r"""% GENERATED FILE --- do not edit by hand.
 % Produced by Writing/V0.2/revision_plan/scripts/export_prompt_appendix.py
@@ -150,9 +179,8 @@ This template is shared by all panel judges and by all four contemporary
 individual judges. Note the four enumerated trigger conditions
 \mbox{(a)--(d)}, the imperative sentence forbidding collapse to
 \textsc{Refutes}, and the three demonstrations, each of which resolves
-to \textsc{Conflicting}. As discussed in \S\ref{sec:method}, this makes
-every directional-overcommitment rate in the paper a conservative lower
-bound.
+to \textsc{Conflicting}. As discussed in \S\ref{sec:method}, the CPO rates in
+the paper are therefore lower than a neutrally worded contract produces.
 
 __JUDGE_BODY__
 
@@ -166,10 +194,62 @@ not consumed by the probe; only the per-subclaim
 \texttt{evidence\_state} assignments are.
 
 __VALIDATOR_BODY__
+
+\subsection{Three-option verdict prompt}
+\label{sec:appendix:prompts:threeoption}
+
+The pre-contract baseline (rung L0) uses this prompt. It offers
+\texttt{NOT\_ENOUGH\_INFO} and no \textsc{Conflicting} verdict.
+
+__THREE_OPTION_BODY__
+
+\subsection{Weaker specifications of the four labels}
+\label{sec:appendix:prompts:weaker}
+
+The two specifications compared with the shared prompt in
+\secorapp{sec:ablation}. The \emph{reduced} specification keeps the
+definition of \textsc{Conflicting} and the instruction not to collapse a mixed
+case; the \emph{neutral} specification keeps the four label names with a
+one-clause gloss each.
+
+\par\noindent\textbf{Reduced specification.}\par
+
+__REDUCED_BODY__
+
+\par\noindent\textbf{Neutral specification.}\par
+
+__NEUTRAL_BODY__
+
+\subsection{Decomposition prompts}
+\label{sec:appendix:prompts:decomposition}
+
+The two-stage condition of rung L6. The first prompt elicits the judge's own
+list of supporting and refuting items, with no verdict vocabulary; the second
+is the shared verdict prompt with that list inserted at
+\verb|<<DECOMPOSITION>>|.
+
+\par\noindent\textbf{Stage 1.}\par
+
+__DECOMPOSE1_BODY__
+
+\par\noindent\textbf{Stage 2.}\par
+
+__DECOMPOSE2_BODY__
+
+\subsection{Recognition probe prompt}
+\label{sec:appendix:prompts:recognition}
+
+The fresh-context probe of \S\ref{sec:recognition}. It names no verdict label
+and asks only what the evidence contains.
+
+__RECOGNITION_BODY__
 """
     tex = (tex
            .replace("__JUDGE_BODY__", listing(judge))
-           .replace("__VALIDATOR_BODY__", listing(validator)))
+           .replace("__VALIDATOR_BODY__", listing(validator))
+           .replace("__THREE_OPTION_BODY__", listing(three_option)))
+    for key, body in probe_bodies.items():
+        tex = tex.replace(key, listing(body))
 
     args.output.write_text(tex, encoding="utf-8")
     print(f"wrote {args.output}")

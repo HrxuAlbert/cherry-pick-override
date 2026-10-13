@@ -1,6 +1,6 @@
 {
-  "probe_run": "/private/tmp/pub_check/outputs/revision_2026/probes/runs/averitec-probe-e1-recognition-20260901-v1/raw_results_full.jsonl",
-  "verdict_run": "/private/tmp/pub_check/outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/raw_results_full.jsonl",
+  "probe_run": "outputs/revision_2026/probes/runs/averitec-probe-e1-recognition-20260901-v1/raw_results_full.jsonl",
+  "verdict_run": "outputs/revision_2026/current_models_averitec/runs/averitec-p0-current-models-20260818-v1/raw_results_full.jsonl",
   "bootstrap": {
     "resamples": 10000,
     "seed": 20260901
@@ -29,6 +29,15 @@
           "wilson": [
             0.7866477402039115,
             0.9180895782335005
+          ]
+        },
+        "S_preserved_prespecified": {
+          "k": 84,
+          "n": 95,
+          "rate": 0.8842105263157894,
+          "wilson": [
+            0.8044533237018899,
+            0.9341021023535361
           ]
         },
         "S_pure_correct": {
@@ -69,6 +78,7 @@
         "pure_correct_lt_0.50": true,
         "delta_interval_excludes_zero": true
       },
+      "g1_pass_prespecified_stratum": true,
       "g1_pass": true,
       "recognition_by_commitment_gold_conflicting": {
         "no|directional": 17,
@@ -97,6 +107,15 @@
           "wilson": [
             0.705694607192994,
             0.8587545632488058
+          ]
+        },
+        "S_preserved_prespecified": {
+          "k": 80,
+          "n": 92,
+          "rate": 0.8695652173913043,
+          "wilson": [
+            0.7857180674970731,
+            0.923785947460941
           ]
         },
         "S_pure_correct": {
@@ -137,6 +156,7 @@
         "pure_correct_lt_0.50": true,
         "delta_interval_excludes_zero": true
       },
+      "g1_pass_prespecified_stratum": true,
       "g1_pass": true,
       "recognition_by_commitment_gold_conflicting": {
         "no|directional": 15,
@@ -165,6 +185,15 @@
           "wilson": [
             0.45361787664577374,
             0.6685693728703647
+          ]
+        },
+        "S_preserved_prespecified": {
+          "k": 38,
+          "n": 56,
+          "rate": 0.6785714285714286,
+          "wilson": [
+            0.548223941560039,
+            0.785991721122777
           ]
         },
         "S_pure_correct": {
@@ -205,6 +234,7 @@
         "pure_correct_lt_0.50": true,
         "delta_interval_excludes_zero": true
       },
+      "g1_pass_prespecified_stratum": false,
       "g1_pass": false,
       "recognition_by_commitment_gold_conflicting": {
         "no|directional": 43,
@@ -233,6 +263,15 @@
           "wilson": [
             0.448345288401061,
             0.6261323749201794
+          ]
+        },
+        "S_preserved_prespecified": {
+          "k": 61,
+          "n": 107,
+          "rate": 0.5700934579439252,
+          "wilson": [
+            0.47546738929221505,
+            0.6598608629163419
           ]
         },
         "S_pure_correct": {
@@ -273,6 +312,7 @@
         "pure_correct_lt_0.50": true,
         "delta_interval_excludes_zero": true
       },
+      "g1_pass_prespecified_stratum": false,
       "g1_pass": false,
       "recognition_by_commitment_gold_conflicting": {
         "no|directional": 22,

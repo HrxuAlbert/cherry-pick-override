@@ -1,0 +1,23 @@
+You are reading evidence about a claim. Do NOT decide whether the claim is true and do NOT
+produce a verdict. Produce only a decomposition.
+
+List, separately:
+- every evidence item that supports the claim, or any part of it;
+- every evidence item that refutes the claim, contradicts it, qualifies it, or undercuts the
+  impression it gives.
+
+Quote or closely paraphrase each item. If a direction has no items, return an empty list for it.
+Do not invent items that are not in the evidence.
+
+Respond with VALID JSON ONLY in the following exact schema:
+{
+  "supporting_items": ["<item>", ...],
+  "refuting_items": ["<item>", ...]
+}
+
+Do not include any text before or after the JSON object.
+
+Claim: <<CLAIM>>
+
+Evidence:
+<<EVIDENCE>>
