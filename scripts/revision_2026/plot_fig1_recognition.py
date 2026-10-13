@@ -14,7 +14,6 @@ Reads only the analysis artifact; no raw run and no human-audit file.
 """
 
 from __future__ import annotations
-
 def _cpo_workspace(_f=__file__):
     """Resolve the release root.
 
@@ -127,7 +126,7 @@ def panel_a(ax, report: dict) -> None:
 
     ax.set_yticks(ys)
     ax.set_yticklabels([NAMES[s] for s in valid], fontsize=15)
-    ax.set_xlim(0, 168)
+    ax.set_xlim(0, 161)  # just past the end of the longest annotation
     ax.set_ylim(-0.44, len(valid) - 0.38)
     ax.set_xlabel("gold-Conflicting claims (N = 150)")  # no subscript: mathtext
     # subscripts render at 0.7x, i.e. 5.0pt after the page downscale
@@ -223,8 +222,9 @@ def main() -> None:
     fig.subplots_adjust(bottom=0.34)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(args.output, dpi=300, bbox_inches="tight")
-    fig.savefig(args.output.with_suffix(".png"), dpi=200, bbox_inches="tight")
+    # pad 0.02in: the page already has margins, so the file carries almost none.
+    fig.savefig(args.output, dpi=300, bbox_inches="tight", pad_inches=0.02)
+    fig.savefig(args.output.with_suffix(".png"), dpi=200, bbox_inches="tight", pad_inches=0.02)
     print(f"wrote {args.output}")
     print(f"wrote {args.output.with_suffix('.png')}")
 

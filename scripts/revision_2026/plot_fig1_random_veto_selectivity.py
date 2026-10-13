@@ -19,7 +19,6 @@ Outputs:
   - Writing/V0.2/figures/fig1_random_veto_selectivity.png
 """
 from __future__ import annotations
-
 def _cpo_workspace(_f=__file__):
     """Resolve the release root.
 
@@ -95,7 +94,9 @@ METRICS = [
 # caption; "AVeriTeC ($N=285$)" no longer fits and overlapped the row below.
 DATASETS = [
     ("averitec", "AVeriTeC"),
-    ("vitaminc", "VitaminC-Mixed"),
+    # Two lines: on one line the rotated label is taller than the panel and ran
+    # into the first x tick label below it.
+    ("vitaminc", "VitaminC-\nMixed"),
 ]
 
 MAG_BG = "#fcf3ea"
@@ -192,9 +193,9 @@ def draw_one_panel(ax, rand_arr, f_val, e_val, pct, lower_better,
     left_clear = min(abs(fx - BLOCK / 2), abs(ex - BLOCK / 2))
     right_clear = min(abs(fx - (1 - BLOCK / 2)), abs(ex - (1 - BLOCK / 2)))
     x_anchor, ha = ((0.03, "left") if left_clear >= right_clear else (0.97, "right"))
-    ax.text(x_anchor, 0.97, f"$F$ {f_val:.3f}", transform=ax.transAxes,
+    ax.text(x_anchor, 0.97, f"L7 {f_val:.3f}", transform=ax.transAxes,
             color=F_COLOR, fontsize=7.5, fontweight="bold", ha=ha, va="top")
-    ax.text(x_anchor, 0.79, f"$E$ {e_val:.3f}", transform=ax.transAxes,
+    ax.text(x_anchor, 0.79, f"L4 {e_val:.3f}", transform=ax.transAxes,
             color=E_COLOR, fontsize=7.0, ha=ha, va="top")
 
 
@@ -261,10 +262,10 @@ def main():
     # VitaminC-Mixed it is false for three of the four cells, and it labelled
     # the same p = .06 as "near median" in one column and "extreme" in another.
     # The per-panel p-values carry the result, correctly, cell by cell.
-    fig.text(0.317, 0.855, "MAGNITUDE  (error rates)",
+    fig.text(0.317, 0.828, "MAGNITUDE  (error rates)",
              ha="center", va="center", fontsize=8, fontweight="bold",
              color=MAG_BANNER)
-    fig.text(0.762, 0.855, "DIRECTION PRESERVATION  (which commits survive)",
+    fig.text(0.762, 0.828, "DIRECTION PRESERVATION  (which commitments survive)",
              ha="center", va="center", fontsize=8, fontweight="bold",
              color=SEL_BANNER)
 
@@ -275,25 +276,27 @@ def main():
     # caption, keep the saved width at the figsize.
     handles = [
         plt.Rectangle((0, 0), 1, 1, color=KDE_FILL,
-                      label="Random Stage-1 promotion (2000 seeds)"),
+                      label="Random Stage-1 promotion (2000 random subsets)"),
         plt.Rectangle((0, 0), 1, 1, color=BAND_FILL,
                       label="[5, 95] percentile band"),
         plt.Line2D([0], [0], color=F_COLOR, linewidth=1.8,
-                   label=r"$F$ = L5 two-channel probe"),
+                   label="L7 = two-channel probe"),
         plt.Line2D([0], [0], color=E_COLOR, linewidth=1.0, linestyle=(0, (4, 2)),
-                   label=r"$E$ = L3 (confidence-only)"),
+                   label="L4 = confidence-only probe"),
     ]
     fig.legend(handles=handles, loc="upper center",
-               bbox_to_anchor=(0.5, 1.085), ncol=2,
+               bbox_to_anchor=(0.5, 1.005), ncol=2,
                frameon=False, fontsize=8, columnspacing=1.6)
 
     print(f"caption needs: AVeriTeC k={k_values.get('averitec','?')}, "
           f"VitaminC k={k_values.get('vitaminc','?')}")
     WRITING_DIR.mkdir(parents=True, exist_ok=True)
     out_pdf = WRITING_DIR / "fig1_random_veto_selectivity.pdf"
-    fig.savefig(out_pdf, bbox_inches="tight", pad_inches=0.08)
+    # pad 0.05in: the page already has margins, so the file carries little; less
+    # than this and the rotated row label's text box crosses the edge.
+    fig.savefig(out_pdf, bbox_inches="tight", pad_inches=0.05)
     out_png = WRITING_DIR / "fig1_random_veto_selectivity.png"
-    fig.savefig(out_png, bbox_inches="tight", pad_inches=0.08, dpi=200)
+    fig.savefig(out_png, bbox_inches="tight", pad_inches=0.05, dpi=200)
     plt.close(fig)
     print(f"Wrote {out_pdf}")
     print(f"Wrote {out_png}")

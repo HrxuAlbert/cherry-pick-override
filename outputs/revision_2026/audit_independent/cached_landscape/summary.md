@@ -44,4 +44,4 @@
 
 **Finding 2 (error trade-off).** The same table reports pure-directional accuracy, false-conflict errors, and insufficient-case directional errors beside CCO, preventing a lower commitment rate from being interpreted as an unconditional improvement.
 
-**Finding 3 (cross-dataset boundary).** Panel and prompt effects are reported separately for the two substrates; a pattern present on one dataset is not generalized to the other without a paired contrast and an audited construct check.
+**Finding 3 (cross-dataset boundary).** Panel and prompt effects are reported separately for the two datasets; a pattern present on one dataset is not generalized to the other without a paired contrast and an audited construct check.

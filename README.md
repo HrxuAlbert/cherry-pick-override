@@ -11,11 +11,17 @@ The v1 release is preserved under `scripts/option_a_exp/` and
 `scripts/revision_2026/`, `tests/revision_2026/` and
 `outputs/revision_2026/`.
 
+The v1 scripts keep the names they were released with. They write `CCO` for
+what the paper calls CPO, they number the panel-aggregation, confidence,
+validator and two-channel rungs L2 to L5 where the paper now numbers them L3,
+L4, L5 and L7, and they label the confidence-only and two-channel probes `E`
+and `F`. This README uses the paper's names.
+
 ## What this repo contains
 
 Analysis-only release: cached predictions from the panel and validator are
-shipped so that all paper tables and figures can be reproduced *without*
-re-running the LLM API calls. The original prompts are also included so a
+shipped so that the paper's tables and its two data figures can be reproduced
+*without* re-running the LLM API calls. The original prompts are also included so a
 reader can audit what was sent to the models.
 
 ```
@@ -25,7 +31,7 @@ reader can audit what was sent to the models.
 │   ├── option_a_exp/prompts/judges/  # the 4 prompts, reproduced in the appendix
 │   └── revision_2026/                # v2: runners, analysers, plot scripts
 ├── tests/revision_2026/              # v2: unit tests for the above
-├── manifests/                        # v2: frozen model rosters for the replication
+├── manifests/                        # v2: pre-specified model rosters for the replication
 └── outputs/
     ├── option_a_exp/strengthening/   # v1 cached predictions (about 10 MB)
     │   ├── e1_full_4label_utility/                  # AVeriTeC panel (3-opt + 4-opt + per-judge confidences)
@@ -50,9 +56,9 @@ Python 3.12 with `numpy`, `matplotlib`, and `scipy`. Install with
 | `analyze_controllers_on_vitaminc.py`    | The VitaminC-Mixed replication table (the same controllers on VitaminC-Mixed) |
 | `fair_random_stage1.py`                 | Matched random Stage-1 null distributions (data for the random-veto figure, AVeriTeC + VitaminC) |
 | `plot_fig1_random_veto_selectivity.py`  | Superseded by the v2 copy under `scripts/revision_2026/` (see below) |
-| `diagnostic_analyses.py`                | The panel-amplification anatomy table and the confidence-boundary numbers in the L3 subsection |
+| `diagnostic_analyses.py`                | The panel-amplification anatomy table and the confidence-boundary numbers in the L4 analysis |
 | `concept_diagnostics.py`                | Calibration / ECE; 4x4 gold-by-pred matrix; false-conflict rate on pure-S/R; panel-agreement on CCO; validator coverage on CCO |
-| `bootstrap_cis_and_baselines.py`        | The four paired-bootstrap CIs in the diagnostic-analyses section and the conflict-if-any panel baseline (intervention-ladder table, L2) |
+| `bootstrap_cis_and_baselines.py`        | The four paired-bootstrap CIs in the diagnostic-analyses section and the alternative panel-aggregation rule (intervention-ladder table, L3) |
 
 Run from the repo root (order matters: `fair_random_stage1.py` produces
 the JSON that `plot_fig1_random_veto_selectivity.py` consumes):
@@ -73,7 +79,7 @@ the `FIG_DIR` environment variable.
 
 ## The v2 revision
 
-The revision adds four probe experiments, a frozen replication on four
+The revision adds four probe experiments, a pre-specified replication on four
 contemporary judges, and a set of independent diagnostics. Their analysis
 outputs are the direct source of every number in the v2 tables, and the raw
 model outputs are shipped so those outputs can be re-derived rather than
@@ -81,7 +87,7 @@ merely inspected.
 
 | Script (`scripts/revision_2026/`) | Reproduces |
 |---|---|
-| `analyze_current_model_results.py`     | The contemporary-judge replication table (four judges, both substrates) |
+| `analyze_current_model_results.py`     | The contemporary-judge replication table (four judges, both datasets) |
 | `analyze_commitment_probes.py`         | The recognition-rate table and the data for the recognition figure (E1 fresh-context recognition probe) |
 | `plot_fig1_recognition.py`             | The recognition figure |
 | `analyze_prompt_ladder.py`             | The prompt-specification ladder table (E5) |
@@ -133,8 +139,8 @@ than leaving them to fail:
 ### What is not here, and why
 
 The paper's limitations section reports a two-reviewer agreement check on
-twenty claims from the AVeriTeC sample. **None of that annotation material is
-in this release**: not the reviewers' annotations, not the blinding map, not
+twenty AVeriTeC claims drawn from outside the evaluation sample. **None of
+that annotation material is in this release**: not the reviewers' annotations, not the blinding map, not
 the workbook builders. Two people labelled those twenty claims, and publishing
 per-reviewer judgements would identify them. `analyze_audit_agreement.py` is
 included so the agreement statistics in that section can be read off the code
@@ -196,7 +202,7 @@ For the validator (`e3_*`):
 - `honest.txt` — 3-option judge (S/R/NEI), used for L0 (pre-contract baseline)
 - `honest_4opt_strong.txt` — 4-option typed judge (S/R/I/C), used L1 onwards
 - `certificate_strict.txt` — zero-shot evidence-state validator (the zero-shot check in the channel-complementarity tests)
-- `certificate_strict_fewshot.txt` — few-shot evidence-state validator (used in L4/L5)
+- `certificate_strict_fewshot.txt` — few-shot evidence-state validator (used in L5 and L7)
 
 ## Models
 
@@ -204,7 +210,7 @@ The historical panel (v1, still the subject of the intervention-ladder table): A
 Haiku 4.5, Anthropic Claude Sonnet 4.5, OpenAI GPT-4o-mini, with Claude
 Haiku 4.5 as the validator.
 
-The frozen replication added in v2 (the contemporary-judge replication table,
+The pre-specified replication added in v2 (the contemporary-judge replication table,
 and the probes in the recognition and channel-complementarity sections) uses
 four judges scored individually, two proprietary and two
 open-weight: GPT-5.6 Terra, Claude Sonnet 5, gpt-oss-120b and Mistral

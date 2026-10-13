@@ -26,7 +26,6 @@ a prompt that was not the one executed, so it is a hard error.
 """
 
 from __future__ import annotations
-
 def _cpo_workspace(_f=__file__):
     """Resolve the release root.
 
@@ -137,16 +136,12 @@ def main() -> None:
 \section{Prompts}
 \label{sec:appendix:prompts}
 
-Each prompt below is the byte content of the template file the runner loads,
-named above its listing; the same files are in the code release under
-\texttt{scripts/option\_a\_exp/prompts/judges/}, where four prompts are
-shipped and the name identifies which one this is.
-\verb|<<CLAIM>>| and \verb|<<EVIDENCE>>| are the
-substitution points for the claim text and the rendered gold
-question--answer evidence block. Line breaks are the template's own, except
-where a line exceeds the measure and is wrapped by the typesetter; those
-wraps carry a \textcolor{promptrule}{$\hookrightarrow$} marker, so a wrap is
-never mistaken for a newline in the prompt.
+Each prompt below is reproduced verbatim from the template used in the runs;
+the templates are in the code release. \verb|<<CLAIM>>| and
+\verb|<<EVIDENCE>>| mark where the claim text and the gold question--answer
+evidence are inserted. Line breaks are the template's own; a line too long for
+the page is wrapped, and the wrap carries a
+\textcolor{promptrule}{$\hookrightarrow$} marker.
 
 \subsection{Typed four-option verdict prompt}
 \label{sec:appendix:prompts:judge}
@@ -159,9 +154,6 @@ to \textsc{Conflicting}. As discussed in \S\ref{sec:method}, this makes
 every directional-overcommitment rate in the paper a conservative lower
 bound.
 
-\smallskip
-\noindent\texttt{__JUDGE_NAME__}
-
 __JUDGE_BODY__
 
 \subsection{Certificate validator prompt}
@@ -173,15 +165,10 @@ structural channel of the two-channel reference probe
 not consumed by the probe; only the per-subclaim
 \texttt{evidence\_state} assignments are.
 
-\smallskip
-\noindent\texttt{__VALIDATOR_NAME__}
-
 __VALIDATOR_BODY__
 """
     tex = (tex
-           .replace("__JUDGE_NAME__", JUDGE[0].replace("_", r"\_"))
            .replace("__JUDGE_BODY__", listing(judge))
-           .replace("__VALIDATOR_NAME__", VALIDATOR[0].replace("_", r"\_"))
            .replace("__VALIDATOR_BODY__", listing(validator)))
 
     args.output.write_text(tex, encoding="utf-8")

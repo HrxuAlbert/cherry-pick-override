@@ -395,7 +395,7 @@ def write_summary(
             "\n## Data-supported provisional findings\n\n",
             f"**Finding 1 (dataset-defined continuity only).** Adding the explicit four-way contract reduces panel directional commitments on dataset-labelled conflicts from {fmt_rate(av3['cco_rate'])}% to {fmt_rate(av4['cco_rate'])}% on AVeriTeC and from {fmt_rate(vc3['cco_rate'])}% to {fmt_rate(vc4['cco_rate'])}% on VitaminC-Mixed; it does not establish the human-confirmed rate.\n\n",
             "**Finding 2 (error trade-off).** The same table reports pure-directional accuracy, false-conflict errors, and insufficient-case directional errors beside CCO, preventing a lower commitment rate from being interpreted as an unconditional improvement.\n\n",
-            "**Finding 3 (cross-dataset boundary).** Panel and prompt effects are reported separately for the two substrates; a pattern present on one dataset is not generalized to the other without a paired contrast and an audited construct check.\n",
+            "**Finding 3 (cross-dataset boundary).** Panel and prompt effects are reported separately for the two datasets; a pattern present on one dataset is not generalized to the other without a paired contrast and an audited construct check.\n",
         ]
     )
     path.write_text("".join(lines), encoding="utf-8")
